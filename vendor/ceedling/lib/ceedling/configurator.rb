@@ -107,8 +107,7 @@ class Configurator
     cmock[:unity_helper] = false                     if (cmock[:unity_helper].nil?)
 
     if (cmock[:unity_helper])
-      cmock[:unity_helper] = [cmock[:unity_helper]] if cmock[:unity_helper].is_a? String
-      cmock[:includes] += cmock[:unity_helper].map{|helper| File.basename(helper) }
+      cmock[:includes] << File.basename(cmock[:unity_helper])
       cmock[:includes].uniq!
     end
 
@@ -328,7 +327,6 @@ class Configurator
 
   def insert_rake_plugins(plugins)
     plugins.each do |plugin|
-      # TODO needs a duplicate guard
       @project_config_hash[:project_rakefile_component_files] << plugin
     end
   end
