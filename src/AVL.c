@@ -1,19 +1,16 @@
 #include "AVL.h"
 
-int avlAdd(Node **rootPtr, Node *nodeToAdd){
+Node *avlAdd(Node **rootPtr, Node *nodeToAdd){
   if(*rootPtr == NULL){
     *rootPtr = nodeToAdd;
     return *rootPtr;
   } else {
     if ((*rootPtr)->data > nodeToAdd->data){
-        Node *temp = (*rootPtr)->left;
-        (*rootPtr)->left = avlAdd(&temp,nodeToAdd);
+        (*rootPtr)->left = avlAdd(&(*rootPtr)->left,nodeToAdd);
       }
     else if((*rootPtr)->data < nodeToAdd->data){
-        Node *temp = (*rootPtr)->right;
-        (*rootPtr)->right = avlAdd(&temp,nodeToAdd);
+        (*rootPtr)->right = avlAdd(&(*rootPtr)->right,nodeToAdd);
       }
-    else
-      return *rootPtr;
   }
+  return *rootPtr;
 }

@@ -3,6 +3,6 @@
 #include "Node.h"
 #include <stdio.h>
 
-int avlAdd(Node **rootPtr, Node *nodeToAdd);
+Node *avlAdd(Node **rootPtr, Node *nodeToAdd);
 
 #endif // _AVL_H

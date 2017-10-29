@@ -22,31 +22,18 @@ char *createMessage(char *message, ...){
 
 void testAssertEqualNode(Node *left, Node *right, int bf, Node *node,int lineNo){
   char *error;
-  if(left != NULL){
-    if(node->left == NULL){
+  if(left != node->left){
       error = createMessage("Expected left node to be 0x%p, but was %p",  \
                             left,node->left);
-    UNITY_TEST_FAIL(lineNo,error);
+      UNITY_TEST_FAIL(lineNo,error);
     }
-  } else  {
-    if(node->left != NULL){
-      error = createMessage("Expected left node to be 0x%p, but was %p",  \
-                            left,node->left);
-    UNITY_TEST_FAIL(lineNo,error);
-    }
-  }
 
-  if(right != NULL){
-    if(node->right == NULL){
+
+  if(right != node->right){
       error = createMessage("Expected right node to be 0x%p, but was %p",  \
                             right,node->right);
     UNITY_TEST_FAIL(lineNo,error);
     }
-  } else {
-    if(node->right != NULL){
-      error = createMessage("Expected right node to be 0x%p, but was %p",  \
-                            right,node->right);
-    UNITY_TEST_FAIL(lineNo,error);
-    }
-  }
+
+
 }

@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 Node node1, node5, node10, node15, node20, node25, node30, node35, node40;
-Node node45, node50, node55;
+Node node45, node50, node55,node60;
 
 void setUp(void){
   node1.data = 1;
@@ -21,6 +21,7 @@ void setUp(void){
   node45.data = 45;
   node50.data = 50;
   node55.data = 55;
+  node60.data = 60;
 }
 
 void tearDown(void){}
@@ -105,12 +106,18 @@ void test_avlAdd_given_root_node55_and_node40_add_node35_expect_node35_to_be_pla
  */
 void test_avlAdd_given_root_node55_and_node40_add_node45_expect_node45_to_be_placed_at_node40_right(void){
   Node *root = &node55;
-  initNode(&node55,&node40,NULL,100);
+
+
+  initNode(&node55,&node40,&node60,100);
   initNode(&node40,NULL,NULL,100);
-  initNode(&node45,NULL,NULL,100);
+
 
   avlAdd(&root, &node45);
+  TEST_ASSERT_EQUAL_PTR(&node40,node55.left);
+  TEST_ASSERT_EQUAL_PTR(NULL,node40.left);
+  TEST_ASSERT_EQUAL_PTR(&node45,node40.right);
+
   TEST_ASSERT_EQUAL_PTR(&node55,root);
-  TEST_ASSERT_EQUAL_NODE(&node40,NULL,0,&node55);
+  TEST_ASSERT_EQUAL_NODE(&node40,&node60,0,&node55);
   TEST_ASSERT_EQUAL_NODE(NULL,&node45,0,&node40);
 }
