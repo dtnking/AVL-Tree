@@ -1,5 +1,22 @@
 #include "AVL.h"
 
+/** ------------------------------------------------------------------
+ *           before         |        |        after         |
+ *                    grand |        |                grand | height
+ *     root   child   child | action | root   child   child | change
+ *  ------------------------------------------------------------------
+ *      +2     +1       x   |   L    |  0       0       x   |
+ *      +2      0       x   |   L    |  1      -1       x   |
+ *      +2     -1      -1   |   RL   |  0       1       0   |
+ *      +2     -1       0   |   RL   |  0       0       0   |
+ *      +2     -1      +1   |   RL   | -1      -1       0   |
+ *      -2     -1       x   |   R    |  0       0       x   |
+ *      -2      0       x   |   R    | -1       1       x   |
+ *      -2     +1      +1   |   LR   |  0      -1       0   |
+ *      -2     +1       0   |   LR   |  0       0       0   |
+ *      -2     +1      -1   |   LR   |  1       0       0   |
+ *  -----------------------------------------------------------------
+ */
 Node *avlAdd(Node **rootPtr, Node *nodeToAdd){
   if(*rootPtr == NULL){
     *rootPtr = nodeToAdd;
@@ -7,10 +24,18 @@ Node *avlAdd(Node **rootPtr, Node *nodeToAdd){
   } else {
     if ((*rootPtr)->data > nodeToAdd->data){
         (*rootPtr)->left = avlAdd(&(*rootPtr)->left,nodeToAdd);
+        (*rootPtr)->balanceFactor -= 1;
       }
-    else if((*rootPtr)->data < nodeToAdd->data){
+    else{
         (*rootPtr)->right = avlAdd(&(*rootPtr)->right,nodeToAdd);
+        (*rootPtr)->balanceFactor += 1;
       }
+  }
+  if((*rootPtr)->balanceFactor >= 2){
+    avlBalanceLeftTree(&(*rootPtr));
+  }
+  else if((*rootPtr)->balanceFactor <= -2){
+    avlBalanceRightTree(&(*rootPtr));
   }
   return *rootPtr;
 }

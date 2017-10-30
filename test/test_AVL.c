@@ -35,7 +35,7 @@ void tearDown(void){}
  *        add 50
  *    NULL-------> 50
  */
-void test_avlAdd_given_empty_tree_add_node1_expect_node1_to_be_root(void){
+void test_avlAdd_given_empty_tree_add_node1_expected_node1_to_be_root(void){
   Node *root = NULL;
   initNode(&node50,&node40,&node55,0);
 
@@ -52,14 +52,14 @@ void test_avlAdd_given_empty_tree_add_node1_expect_node1_to_be_root(void){
  *               \
  *                55
  */
-void test_avlAdd_given_root_node50_add_node55_expect_node55_to_be_placed_at_node50_right(void){
+void test_avlAdd_given_root_node50_add_node55_expected_balance_tree(void){
   Node *root = &node50;
   initNode(&node50,NULL,NULL,0);
   initNode(&node55,NULL,NULL,0);
 
   avlAdd(&root, &node55);
   TEST_ASSERT_EQUAL_PTR(&node50,root);
-  TEST_ASSERT_EQUAL_NODE(NULL,&node55,0,&node50);
+  TEST_ASSERT_EQUAL_NODE(NULL,&node55,1,&node50);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
 }
 
@@ -69,14 +69,14 @@ void test_avlAdd_given_root_node50_add_node55_expect_node55_to_be_placed_at_node
  *             /
  *            40
  */
-void test_avlAdd_given_root_node55_add_node40_expect_node40_to_be_placed_at_node55_left(void){
+void test_avlAdd_given_root_node55_add_node40_expected_balance_tree(void){
   Node *root = &node55;
   initNode(&node55,NULL,NULL,0);
   initNode(&node40,NULL,NULL,0);
 
   avlAdd(&root, &node40);
   TEST_ASSERT_EQUAL_PTR(&node55,root);
-  TEST_ASSERT_EQUAL_NODE(&node40,NULL,0,&node55);
+  TEST_ASSERT_EQUAL_NODE(&node40,NULL,-1,&node55);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
 }
 
@@ -88,45 +88,48 @@ void test_avlAdd_given_root_node55_add_node40_expect_node40_to_be_placed_at_node
  *           /
  *          35
  */
-void test_avlAdd_given_root_node55_and_node40_add_node35_expect_node35_to_be_placed_at_node40_left(void){
+void test_avlAdd_given_root_node55_and_node40_add_node35_expected_balance_tree(void){
   Node *root = &node55;
-  initNode(&node55,&node40,NULL,0);
+  initNode(&node55,&node40,NULL,-1);
   initNode(&node40,NULL,NULL,0);
   initNode(&node35,NULL,NULL,0);
 
   avlAdd(&root, &node35);
-  TEST_ASSERT_EQUAL_PTR(&node55,root);
-  TEST_ASSERT_EQUAL_NODE(&node40,NULL,0,&node55);
-  TEST_ASSERT_EQUAL_NODE(&node35,NULL,0,&node40);
+  TEST_ASSERT_EQUAL_PTR(&node40,root);
+  TEST_ASSERT_EQUAL_NODE(&node35,&node55,0,&node40);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node35);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
 }
 
 /**
  *   (add 45):
- *              55
- *             /
- *            40
- *             \
- *             45
+ *              55                  55              45
+ *             /      --->          /              /  \
+ *            40                  40  ------>     40  55
+ *                                 \
+ *                                 45
  */
-void test_avlAdd_given_root_node55_and_node40_add_node45_expect_node45_to_be_placed_at_node40_right(void){
+void test_avlAdd_given_root_node55_and_node40_add_node45_expected_balance_tree(void){
   Node *root = &node55;
-
-
-  initNode(&node55,&node40,NULL,0);
+  initNode(&node55,&node40,NULL,-1);
   initNode(&node40,NULL,NULL,0);
+  initNode(&node45,NULL,NULL,0);
 
 
   avlAdd(&root, &node45);
-  TEST_ASSERT_EQUAL_PTR(&node55,root);
-  TEST_ASSERT_EQUAL_NODE(&node40,NULL,0,&node55);
-  TEST_ASSERT_EQUAL_NODE(NULL,&node45,0,&node40);
+  TEST_ASSERT_EQUAL_PTR(&node45,root);
+  TEST_ASSERT_EQUAL_NODE(&node40,&node55,0,&node45);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
 }
 
 
+
+
 /**
- *            40(+2)                      50(0)
- *             \                         /   \
- *             50(+1)       ----->    40(0)  55(0)
+ *            40(+2)                         50(0)
+ *             \         Rotate Left         /   \
+ *             50(+1)  -------------->    40(0)  55(0)
  *              \
  *              55(0)
  *
@@ -145,11 +148,11 @@ void test_avlLeftBalanceTree_given_40_50_55_expect_balance_tree(void){
 }
 
 /**
- *            40(+2)                      50(-1)
- *             \                         /   \
- *             50(0)        ----->    40(1)  55(0)
- *            /  \                      \
- *        45(0)   55(0)                45(0)
+ *            40(+2)                       50(-1)
+ *             \         Rotate Left       /   \
+ *             50(0)   -------------->   40(1)  55(0)
+ *            /  \                         \
+ *        45(0)   55(0)                   45(0)
  *
  */
 void test_avlLeftBalanceTree_given_40_45_50_55_expect_balance_tree(void){
@@ -168,11 +171,11 @@ void test_avlLeftBalanceTree_given_40_45_50_55_expect_balance_tree(void){
 }
 
 /**
- *            30(+2)                          45(0)
- *           /  \                             /    \
- *       20(0)  50(-1)        ----->      30(0)   50(+1)
- *             /   \                      /   \      \
-*          45(-1)   55(0)               20(0) 40(0)   55(0)
+ *            30(+2)                             45(0)
+ *           /  \         Rotate Right          /    \
+ *       20(0)  50(-1)      and Left         30(0)   50(+1)
+ *             /   \      -------------->    /   \      \
+*          45(-1)   55(0)                 20(0) 40(0)   55(0)
  *           /
  *        40(0)
  */
@@ -196,11 +199,11 @@ void test_avlLeftBalanceTree_given_30_20_50_45_55_40_expect_balance_tree(void){
 }
 
 /**
- *            30(+2)                            45(0)
- *           /  \                             /      \
- *       20(0)  60(-1)        ----->      30(0)     60(0)
- *             /   \                     /   \       /  \
-*          45(0)   65(0)              20(0) 40(0) 50(0) 65(0)
+ *            30(+2)                             45(0)
+ *           /  \         Rotate Right         /      \
+ *       20(0)  60(-1)     and Left         30(0)     60(0)
+ *             /   \     --------------->   /   \      /  \
+*          45(0)   65(0)                 20(0) 40(0) 50(0) 65(0)
  *         /   \
  *      40(0) 50(0)
  */
@@ -226,11 +229,11 @@ void test_avlLeftBalanceTree_given_30_20_60_45_65_40_50_expect_balance_tree(void
 }
 
 /**
- *            30(+2)                            45(0)
- *           /  \                             /     \
- *       20(0)  60(-1)        ----->      30(-1)    60(0)
- *             /   \                      /        /  \
- *          45(+1)  65(0)              20(0)    50(0) 65(0)
+ *            30(+2)                             45(0)
+ *           /  \         Rotate Right          /     \
+ *       20(0)  60(-1)     and Left         30(-1)    60(0)
+ *             /   \    ----------------->   /        /  \
+ *          45(+1)  65(0)                  20(0)    50(0) 65(0)
  *           \
  *           50(0)
  */
@@ -254,9 +257,9 @@ void test_avlLeftBalanceTree_given_30_20_60_45_65_50_expect_balance_tree(void){
 }
 
 /**
- *            55(-2)                     50(0)
- *            /                        /   \
- *          50(-1)        ----->    40(0)  55(0)
+ *            55(-2)                       50(0)
+ *            /        Rotate Right       /    \
+ *          50(-1)    -------------->   40(0)  55(0)
  *         /
  *       40(0)
  *
@@ -275,11 +278,11 @@ void test_avlRightBalanceTree_given_40_50_55_expect_balance_tree(void){
 }
 
 /**
- *            55(-2)                    45(1)
- *            /                        /   \
- *          45(0)        ----->    40(0)  55(-1)
- *         /  \                           /
- *     40(0) 50(0)                      50(0)
+ *            55(-2)                      45(1)
+ *            /         Rotate Right     /   \
+ *          45(0)       ----------->   40(0)  55(-1)
+ *         /  \                        /
+ *     40(0) 50(0)                   50(0)
  *
  */
 void test_avlRightBalanceTree_given_40_45_50_55_expect_balance_tree(void){
@@ -298,11 +301,11 @@ void test_avlRightBalanceTree_given_40_45_50_55_expect_balance_tree(void){
 }
 
 /**
- *              60(-2)                        50(0)
- *            /      \                      /     \
- *          45(+1)  65(0)      ----->    45(-1)  60(0)
- *         /  \                          /       /   \
- *     40(0)  50(+1)                   40(0)  55(0)  65(0)
+ *              60(-2)                          50(0)
+ *            /      \      Rotate Left        /     \
+ *          45(+1)  65(0)    and Right      45(-1)  60(0)
+ *         /  \            ------------->   /       /   \
+ *     40(0)  50(+1)                      40(0)  55(0)  65(0)
  *              \
  *             55(0)
  */
@@ -326,11 +329,11 @@ void test_avlRightBalanceTree_given_60_45_65_40_50_55_expect_balance_tree(void){
 }
 
 /**
- *              70(-2)                        60(0)
- *            /      \                      /      \
- *          50(+1)  75(0)      ----->    50(0)     70(0)
- *         /  \                         /  \       /   \
- *     40(0)  60(0)                  40(0) 55(0) 65(0) 75(0)
+ *              70(-2)                              60(0)
+ *            /      \         Rotate Right       /      \
+ *          50(+1)  75(0)       and Left       50(0)     70(0)
+ *         /  \              -------------->   /  \       /   \
+ *     40(0)  60(0)                         40(0) 55(0) 65(0) 75(0)
  *            /   \
  *         55(0) 65(0)
  */
@@ -356,11 +359,11 @@ void test_avlRightBalanceTree_given_70_50_75_40_60_55_65_expect_balance_tree(voi
 }
 
 /**
- *              70(-2)                        60(0)
- *            /      \                      /      \
- *          50(+1)  75(0)      ----->    50(0)     70(+1)
- *         /  \                         /  \          \
- *     40(0)  60(-1)                  40(0) 55(0)     75(0)
+ *              70(-2)                              60(0)
+ *            /      \       Rotate Right         /     \
+ *          50(+1)  75(0)     and Left         50(0)    70(+1)
+ *         /  \              ---------->       /  \        \
+ *     40(0)  60(-1)                        40(0) 55(0)    75(0)
  *            /
  *          55(0)
  */
