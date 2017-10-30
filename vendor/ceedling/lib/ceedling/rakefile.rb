@@ -9,11 +9,13 @@ CEEDLING_RELEASE = File.join(CEEDLING_ROOT, 'release')
 $LOAD_PATH.unshift( CEEDLING_LIB )
 $LOAD_PATH.unshift( File.join(CEEDLING_VENDOR, 'unity/auto') )
 $LOAD_PATH.unshift( File.join(CEEDLING_VENDOR, 'diy/lib') )
-$LOAD_PATH.unshift( File.join(CEEDLING_VENDOR, 'constructor/lib') )
 $LOAD_PATH.unshift( File.join(CEEDLING_VENDOR, 'cmock/lib') )
 $LOAD_PATH.unshift( File.join(CEEDLING_VENDOR, 'deep_merge/lib') )
 
 require 'rake'
+
+#Let's make sure we remember the task descriptions in case we need them
+Rake::TaskManager.record_task_metadata = true
 
 require 'diy'
 require 'constructor'
@@ -58,6 +60,9 @@ verbose(false)
 
 # end block always executed following rake run
 END {
+  $stdout.flush unless $stdout.nil?
+  $stderr.flush unless $stderr.nil?
+
   # cache our input configurations to use in comparison upon next execution
   @ceedling[:cacheinator].cache_test_config( @ceedling[:setupinator].config_hash )    if (@ceedling[:task_invoker].test_invoked?)
   @ceedling[:cacheinator].cache_release_config( @ceedling[:setupinator].config_hash ) if (@ceedling[:task_invoker].release_invoked?)
@@ -73,6 +78,8 @@ END {
     # tell all our plugins the build is done and process results
     @ceedling[:plugin_manager].post_build
     @ceedling[:plugin_manager].print_plugin_failures
-    exit(1) if (@ceedling[:plugin_manager].plugins_failed? && !@ceedling[:setupinator].config_hash[:graceful_fail]) 
+    exit(1) if (@ceedling[:plugin_manager].plugins_failed? && !@ceedling[:setupinator].config_hash[:graceful_fail])
+  else
+    puts "ERROR: Ceedling Failed"
   end
 }

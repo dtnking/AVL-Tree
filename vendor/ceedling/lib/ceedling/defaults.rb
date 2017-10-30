@@ -183,6 +183,8 @@ DEFAULT_RELEASE_LINKER_TOOL = {
   :arguments => [
     "\"${1}\"".freeze,
     "-o \"${2}\"".freeze,
+    "".freeze,
+    "${4}".freeze
     ].freeze
   }
 
@@ -311,7 +313,8 @@ DEFAULT_CEEDLING_CONFIG = {
 
     :cmock => {
       :vendor_path => CEEDLING_VENDOR,
-      :defines => []
+      :defines => [],
+      :includes => []
     },
 
     :cexception => {
@@ -344,7 +347,7 @@ DEFAULT_CEEDLING_CONFIG = {
     :release_dependencies_generator => { :arguments => [] },
 
     :plugins => {
-      :load_paths => CEEDLING_PLUGINS,
+      :load_paths => [], #XXX this is injected twice as of now so removed til better handling is found CEEDLING_PLUGINS,
       :enabled => [],
     }
   }.freeze
