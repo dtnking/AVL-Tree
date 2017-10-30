@@ -27,9 +27,14 @@ void testAssertEqualNode(Node *left, Node *right, int bf, Node *node,int lineNo)
                             left,node->left);
       UNITY_TEST_FAIL(lineNo,error);
     }
+  else if(bf != node->balanceFactor){
+    error = createMessage("Expected balance factor to be 0x%p, but was %p",  \
+                          bf,node->balanceFactor);
+    UNITY_TEST_FAIL(lineNo,error);
+  }
 
 
-  if(right != node->right){
+  else if(right != node->right){
       error = createMessage("Expected right node to be 0x%p, but was %p",  \
                             right,node->right);
     UNITY_TEST_FAIL(lineNo,error);

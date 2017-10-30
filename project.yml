@@ -39,6 +39,7 @@
   :test:
     - *common_defines
     - TEST
+    - _ISO_C99_SOURCE_
   :test_preprocess:
     - *common_defines
     - TEST
