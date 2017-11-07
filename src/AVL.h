@@ -4,7 +4,7 @@
 #include "Rotate.h"
 #include <stdio.h>
 
-Node *avlAdd(Node **rootPtr, Node *nodeToAdd);
+int avlAdd(Node **rootPtr, Node *nodeToAdd);
 int avlBalanceLeftTree(Node **rootPtr);
 int avlBalanceRightTree(Node **rootPtr);
 

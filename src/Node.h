@@ -8,6 +8,7 @@ struct Node{
   Node *left;
   Node *right;
   int balanceFactor;
+  int height;
   uint32_t data;
 };
 

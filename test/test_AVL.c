@@ -24,12 +24,26 @@ void setUp(void){
   node55.data = 55;
   node60.data = 60;
   node65.data = 65;
-  node65.data = 70;
-  node65.data = 75;
+  node70.data = 70;
+  node75.data = 75;
 }
 
 void tearDown(void){}
 
+/**
+ *       delete 50
+ *    50 ----> NULL
+ */
+/*void test_avlDelete_given_50_delete_node50_expected_empty_tree(void){
+  Node *root = &node50;
+  initNode(&node50,NULL,NULL,0);
+
+  avlDelete(&root, &node50);
+  TEST_ASSERT_EQUAL_PTR(&node50,root);
+  TEST_ASSERT_EQUAL_NODE(&node40,&node55,0,&node50);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
+}*/
 
 /**
  *        add 50
@@ -37,11 +51,11 @@ void tearDown(void){}
  */
 void test_avlAdd_given_empty_tree_add_node1_expected_node1_to_be_root(void){
   Node *root = NULL;
-  initNode(&node50,&node40,&node55,0);
+  initNode(&node50,NULL,NULL,0);
 
   avlAdd(&root, &node50);
   TEST_ASSERT_EQUAL_PTR(&node50,root);
-  TEST_ASSERT_EQUAL_NODE(&node40,&node55,0,&node50);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node50);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
 }
@@ -82,11 +96,11 @@ void test_avlAdd_given_root_node55_add_node40_expected_balance_tree(void){
 
 /**
  *   (add 35):
- *              55
- *             /
- *            40
- *           /
- *          35
+ *              55               55                   40
+ *             /      --->      /                    / \
+ *            40              40       ---->       35  55
+ *                           /
+ *                         35
  */
 void test_avlAdd_given_root_node55_and_node40_add_node35_expected_balance_tree(void){
   Node *root = &node55;
@@ -115,7 +129,6 @@ void test_avlAdd_given_root_node55_and_node40_add_node45_expected_balance_tree(v
   initNode(&node40,NULL,NULL,0);
   initNode(&node45,NULL,NULL,0);
 
-
   avlAdd(&root, &node45);
   TEST_ASSERT_EQUAL_PTR(&node45,root);
   TEST_ASSERT_EQUAL_NODE(&node40,&node55,0,&node45);
@@ -123,8 +136,72 @@ void test_avlAdd_given_root_node55_and_node40_add_node45_expected_balance_tree(v
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
 }
 
+/**
+ *   (add 60):
+ *              55                  55                    60
+ *               \     --->          \                   /  \
+ *               65                  65  ------>       55   65
+ *                                   /
+ *                                 60
+ */
+void test_avlAdd_given_root_node55_and_node65_add_node60_expected_balance_tree(void){
+  Node *root = &node55;
+  initNode(&node55,NULL,&node65,1);
+  initNode(&node65,NULL,NULL,0);
+  initNode(&node60,NULL,NULL,0);
 
+  avlAdd(&root, &node60);
+  TEST_ASSERT_EQUAL_PTR(&node60,root);
+  TEST_ASSERT_EQUAL_NODE(&node55,&node65,0,&node60);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node65);
+}
 
+/**
+ *   (add 70):
+ *              55                  55                    65
+ *               \     --->          \                   /  \
+ *               65                  65  ------>       55   70
+ *                                    \
+ *                                    70
+ */
+void test_avlAdd_given_root_node55_and_node65_add_node70_expected_balance_tree(void){
+  Node *root = &node55;
+  initNode(&node55,NULL,&node65,1);
+  initNode(&node65,NULL,NULL,0);
+  initNode(&node70,NULL,NULL,0);
+
+  avlAdd(&root, &node70);
+  TEST_ASSERT_EQUAL_PTR(&node65,root);
+  TEST_ASSERT_EQUAL_NODE(&node55,&node70,0,&node65);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node70);
+}
+
+/**
+ *   (add 45):
+ *           55                   55
+ *          /  \                 / \
+ *         40  60    ---->     40  60
+ *        /                   / \
+ *       35                 35  45
+ */
+ void test_avlAdd_given_root_node55_and_node40_node60_node35_add_node45_expected_balance_tree(void){
+   Node *root = &node55;
+   initNode(&node55,&node40,&node60,-1);
+   initNode(&node40,&node35,NULL,-1);
+   initNode(&node60,NULL,NULL,0);
+   initNode(&node35,NULL,NULL,0);
+   initNode(&node45,NULL,NULL,0);
+
+   avlAdd(&root, &node45);
+   TEST_ASSERT_EQUAL_PTR(&node40,root);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node45);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node35);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node60);
+   TEST_ASSERT_EQUAL_NODE(&node35,&node55,1,&node40);
+   TEST_ASSERT_EQUAL_NODE(&node40,&node60,0,&node55);
+ }
 
 /**
  *            40(+2)                         50(0)
