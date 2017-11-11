@@ -7,7 +7,7 @@
 #include "Rotate.h"
 
 Node node1, node5, node10, node15, node20, node25, node30, node35, node40;
-Node node45, node50, node55,node60,node65,node70,node75;
+Node node45, node50, node55,node60,node65,node70,node75,node80,node85;
 
 void setUp(void){
   node1.data = 1;
@@ -26,6 +26,8 @@ void setUp(void){
   node65.data = 65;
   node70.data = 70;
   node75.data = 75;
+  node80.data = 80;
+  node85.data = 85;
 }
 
 void tearDown(void){}
@@ -186,7 +188,7 @@ void test_avlAdd_given_root_node55_and_node65_add_node70_expected_balance_tree(v
  *        /                   / \
  *       35                 35  45
  */
- void test_avlAdd_given_root_node55_and_node40_node60_node35_add_node45_expected_balance_tree(void){
+void test_avlAdd_given_root_node55_and_node40_node60_node35_add_node45_expected_balance_tree(void){
    Node *root = &node55;
    initNode(&node55,&node40,&node60,-1);
    initNode(&node40,&node35,NULL,-1);
@@ -195,13 +197,183 @@ void test_avlAdd_given_root_node55_and_node65_add_node70_expected_balance_tree(v
    initNode(&node45,NULL,NULL,0);
 
    avlAdd(&root, &node45);
-   TEST_ASSERT_EQUAL_PTR(&node40,root);
+   TEST_ASSERT_EQUAL_PTR(&node55,root);
    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node45);
    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node35);
    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node60);
-   TEST_ASSERT_EQUAL_NODE(&node35,&node55,1,&node40);
-   TEST_ASSERT_EQUAL_NODE(&node40,&node60,0,&node55);
+   TEST_ASSERT_EQUAL_NODE(&node35,&node45,0,&node40);
+   TEST_ASSERT_EQUAL_NODE(&node40,&node60,-1,&node55);
  }
+
+ /**
+  *   (add 35):
+  *           55                   55
+  *          /  \                 / \
+  *         40  60    ---->     40  60
+  *          \                 / \
+  *          45              35  45
+  */
+void test_avlAdd_given_root_node55_and_node40_node60_node45_add_node35_expected_balance_tree(void){
+    Node *root = &node55;
+    initNode(&node55,&node40,&node60,-1);
+    initNode(&node40,NULL,&node45,1);
+    initNode(&node60,NULL,NULL,0);
+    initNode(&node35,NULL,NULL,0);
+    initNode(&node45,NULL,NULL,0);
+
+    avlAdd(&root, &node35);
+    TEST_ASSERT_EQUAL_PTR(&node55,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node45);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node35);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node60);
+    TEST_ASSERT_EQUAL_NODE(&node35,&node45,0,&node40);
+    TEST_ASSERT_EQUAL_NODE(&node40,&node60,-1,&node55);
+  }
+
+/**
+ *   (add 60):
+ *           55                   55
+ *          /  \                 /  \
+ *         40  65    ---->     40    65
+ *              \                   /  \
+ *              75                 60  75
+ */
+void test_avlAdd_given_root_node55_and_node40_node60_node75_add_node60_expected_balance_tree(void){
+   Node *root = &node55;
+   initNode(&node55,&node40,&node65,1);
+   initNode(&node40,NULL,NULL,0);
+   initNode(&node65,NULL,&node75,1);
+   initNode(&node75,NULL,NULL,0);
+   initNode(&node60,NULL,NULL,0);
+
+   avlAdd(&root, &node60);
+   TEST_ASSERT_EQUAL_PTR(&node55,root);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node60);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node75);
+   TEST_ASSERT_EQUAL_NODE(&node60,&node75,0,&node65);
+   TEST_ASSERT_EQUAL_NODE(&node40,&node65,1,&node55);
+   }
+
+/**
+ *   (add 75):
+ *           55                   55
+ *          /  \                 /  \
+ *         40  65    ---->     40    65
+ *             /                    /  \
+ *           60                    60  75
+ */
+void test_avlAdd_given_root_node55_and_node40_node60_node65_add_node75_expected_balance_tree(void){
+    Node *root = &node55;
+    initNode(&node55,&node40,&node65,1);
+    initNode(&node40,NULL,NULL,0);
+    initNode(&node65,&node60,NULL,-1);
+    initNode(&node75,NULL,NULL,0);
+    initNode(&node60,NULL,NULL,0);
+
+    avlAdd(&root, &node75);
+    TEST_ASSERT_EQUAL_PTR(&node55,root);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node60);
+    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node75);
+    TEST_ASSERT_EQUAL_NODE(&node60,&node75,0,&node65);
+    TEST_ASSERT_EQUAL_NODE(&node40,&node65,1,&node55);
+}
+
+
+/**
+ *   (add 80):
+ *           55                   55                            65
+ *          /  \                 /  \                          /  \
+ *         40  65    ---->     40   65         --->          55   75
+ *            /  \                  / \                     / \    \
+ *           60  75                60 75                  40  60   80
+ *                                     \
+  *                                    80
+ */
+void test_avlAdd_given_root_node55_and_node40_node65_node60_node75_add_node80_expected_balance_tree(void){
+   Node *root = &node55;
+   initNode(&node55,&node40,&node65,1);
+   initNode(&node40,NULL,NULL,0);
+   initNode(&node65,&node60,&node75,0);
+   initNode(&node75,NULL,NULL,0);
+   initNode(&node60,NULL,NULL,0);
+   initNode(&node80,NULL,NULL,0);
+
+   avlAdd(&root, &node80);
+   TEST_ASSERT_EQUAL_PTR(&node65,root);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node60);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node80);
+   TEST_ASSERT_EQUAL_NODE(&node55,&node75,0,&node65);
+   TEST_ASSERT_EQUAL_NODE(&node40,&node60,0,&node55);
+   TEST_ASSERT_EQUAL_NODE(NULL,&node80,1,&node75);
+   }
+
+/**
+ *   (add 80):
+ *           50                   50                            55
+ *          /  \                 /  \                          /  \
+ *         40  65    ---->     40   65         --->          50   65
+ *            /  \                  / \                     /     / \
+ *           55  75                55  75                  40    60 75
+ *                                /
+ *                              60
+ */
+void test_avlAdd_given_root_node50_and_node40_node65_node55_node75_add_node60_expected_balance_tree(void){
+  Node *root = &node50;
+  initNode(&node50,&node40,&node65,1);
+  initNode(&node40,NULL,NULL,0);
+  initNode(&node65,&node55,&node75,0);
+  initNode(&node75,NULL,NULL,0);
+  initNode(&node55,NULL,NULL,0);
+  initNode(&node80,NULL,NULL,0);
+  initNode(&node60,NULL,NULL,0);
+
+  avlAdd(&root, &node60);
+  TEST_ASSERT_EQUAL_PTR(&node55,root);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node60);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node75);
+  TEST_ASSERT_EQUAL_NODE(&node40,NULL,-1,&node50);
+  TEST_ASSERT_EQUAL_NODE(&node60,&node75,0,&node65);
+  TEST_ASSERT_EQUAL_NODE(&node50,&node65,0,&node55);
+  }
+
+/**
+ *   (add 85):
+ *           55                   55                            55
+ *          /  \                 /  \                          /  \
+ *         40  65    ---->     40   65         --->          40   65
+ *        /   /  \            /     / \                     /     / \
+ *      30   60  75         30     60 75                  30    60  80
+ *                \                    \                            / \
+ *                80                   80                         75  85
+ *                                      \
+ *                                      85
+ */
+void test_avlAdd_given_root_node55_and_node40_node65_node30_node60_node75_node80_add_node85_expected_balance_tree(void){
+   Node *root = &node55;
+   initNode(&node55,&node40,&node65,1);
+   initNode(&node40,&node30,NULL,-1);
+   initNode(&node65,&node60,&node75,1);
+   initNode(&node75,NULL,&node80,1);
+   initNode(&node30,NULL,NULL,0);
+   initNode(&node80,NULL,NULL,0);
+   initNode(&node60,NULL,NULL,0);
+   initNode(&node85,NULL,NULL,0);
+
+   avlAdd(&root, &node85);
+   TEST_ASSERT_EQUAL_PTR(&node55,root);
+   TEST_ASSERT_EQUAL_NODE(&node30,NULL,-1,&node40);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node30);
+   TEST_ASSERT_EQUAL_NODE(&node60,&node80,1,&node65);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node60);
+   TEST_ASSERT_EQUAL_NODE(&node75,&node85,0,&node80);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node85);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node75);
+
+   }
 
 /**
  *            40(+2)                         50(0)
@@ -280,7 +452,7 @@ void test_avlLeftBalanceTree_given_30_20_50_45_55_40_expect_balance_tree(void){
  *           /  \         Rotate Right         /      \
  *       20(0)  60(-1)     and Left         30(0)     60(0)
  *             /   \     --------------->   /   \      /  \
-*          45(0)   65(0)                 20(0) 40(0) 50(0) 65(0)
+ *         45(0)   65(0)                 20(0) 40(0) 50(0) 65(0)
  *         /   \
  *      40(0) 50(0)
  */

@@ -9,7 +9,7 @@
  *      +2      0       x   |   L    |  1      -1       x   |
  *      +2     -1      -1   |   RL   |  0       1       0   |
  *      +2     -1       0   |   RL   |  0       0       0   |
- *      +2     -1      +1   |   RL   | -1      -1       0   |
+ *      +2     -1      +1   |   RL   | -1       0       0   |
  *      -2     -1       x   |   R    |  0       0       x   |
  *      -2      0       x   |   R    | -1       1       x   |
  *      -2     +1      +1   |   LR   |  0      -1       0   |
@@ -26,8 +26,11 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd){
   } else {
     if ((*rootPtr)->data > nodeToAdd->data){
         heightChanged = avlAdd(&(*rootPtr)->left,nodeToAdd);
-        if(heightChanged==1)
-          (*rootPtr)->balanceFactor -= 1;
+        if(heightChanged==1){
+          (*rootPtr)->balanceFactor -= 1 ;
+          if((*rootPtr)->balanceFactor==0)
+            return 0;
+        }
         else
           return 0;
 
@@ -35,8 +38,11 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd){
     }
     else{
         heightChanged = avlAdd(&(*rootPtr)->right,nodeToAdd);
-        if(heightChanged==1)
+        if(heightChanged==1){
           (*rootPtr)->balanceFactor += 1;
+          if((*rootPtr)->balanceFactor==0)
+            return 0;
+          }
         else
           return 0;
 
@@ -72,7 +78,7 @@ int avlBalanceLeftTree(Node **rootPtr){
     *rootPtr = rotateLeft(*rootPtr);
     }
   else if(node->right->balanceFactor == 0){
-    node->right->balanceFactor = 1;
+    node->balanceFactor = 1;
     node->right->balanceFactor = -1;
     *rootPtr = rotateLeft(*rootPtr);
     }
@@ -91,7 +97,7 @@ int avlBalanceLeftTree(Node **rootPtr){
       }
     else if(node->right->left->balanceFactor == 1){
       node->balanceFactor = -1;
-      node->right->balanceFactor = -1;
+      node->right->balanceFactor = 0;
       node->right->left->balanceFactor = 0;
       *rootPtr = rotateRightLeft(*rootPtr);
       }
@@ -102,6 +108,7 @@ int avlBalanceLeftTree(Node **rootPtr){
 
 int avlBalanceRightTree(Node **rootPtr){
   Node *node = *rootPtr;
+
 
 
   if((*rootPtr)->balanceFactor >= -1)
