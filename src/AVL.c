@@ -1,4 +1,8 @@
 #include "AVL.h"
+#include "unity.h"
+#include <malloc.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 /** ------------------------------------------------------------------
  *           before         |        |        after         |
@@ -19,7 +23,11 @@
  */
    int heightChanged;
 int avlAdd(Node **rootPtr, Node *nodeToAdd){
+  char *error;
+  if(*rootPtr == nodeToAdd){
 
+    error = createMessage("Error, Adding same node");
+  }else{
   if(*rootPtr == NULL){
     *rootPtr = nodeToAdd;
     return 1;
@@ -47,25 +55,69 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd){
           return 0;
 
       return avlBalanceLeftTree(&(*rootPtr));
+      }
     }
   }
 }
 
-/*Node *avlDelete(Node **rootPtr, Node *nodeToDelete){
-  if (*rootPtr== NULL)
-    return *rootPtr;
+int avlDelete(Node **rootPtr, Node *nodeToDelete){
+  Node *temp;
+  if(*rootPtr==NULL)
+    return 0;
+  if ((*rootPtr)->data == nodeToDelete->data){
+    if(((*rootPtr)->left == NULL) && ((*rootPtr)->right == NULL)){
+      *rootPtr = NULL;
+      return 1;
+      }else{
+        if((*rootPtr)->right == NULL){
+          (*rootPtr)->balanceFactor -= 1;
+          (*rootPtr)->left->balanceFactor = (*rootPtr)->balanceFactor;
+          (*rootPtr) = (*rootPtr)->left;
+        }
+        else if((*rootPtr)->left == NULL){
+          (*rootPtr)->balanceFactor += 1;
+          (*rootPtr)->right->balanceFactor = (*rootPtr)->balanceFactor;
+          (*rootPtr) = (*rootPtr)->right;
+        }
+        else {
+          temp = mostRight((*rootPtr)->right);
+          avlDelete(rootPtr,temp);
+          temp->balanceFactor = (*rootPtr)->balanceFactor;
+          temp->left = (*rootPtr)->left;
+          temp->right = (*rootPtr)->right;
+          (*rootPtr) = temp;
+        }
+      }
+  }
   else{
     if((*rootPtr)->data > nodeToDelete->data){
-      (*rootPtr)->left = avlDelete(&(*rootPtr)->left,nodeToDelete);
-    }else if((*rootPtr)->data < nodeToDelete->data){
-      (*rootPtr)->right = avlDelete(&(*rootPtr)->right,nodeToDelete)
-    }else {
-      if()
-    }
+      heightChanged = avlDelete(&(*rootPtr)->left,nodeToDelete);
+      if(heightChanged == 1){
+        (*rootPtr)->balanceFactor  +=1;
 
+      }else
+        return 0;
+      return avlBalanceLeftTree(&(*rootPtr));
+    }else{
+      heightChanged = avlDelete(&(*rootPtr)->right,nodeToDelete);
+      if(heightChanged == 1){
+        (*rootPtr)->balanceFactor  -=1;
+
+      }else
+        return 0;
+      return avlBalanceRightTree(&(*rootPtr));
+      }
+    }
   }
-  return *rootPtr;
-}*/
+
+
+Node *mostRight(Node *node){
+  if(node->right==NULL)
+    return node;
+
+    mostRight(node->right);;
+}
+
 int avlBalanceLeftTree(Node **rootPtr){
   Node *node = *rootPtr;
 

@@ -47,6 +47,22 @@ void tearDown(void){}
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
 }*/
 
+
+/**
+ *        add same value
+ *    50 ---add 50----> error
+ */
+void test_avlAdd_given_node50_add_node50_expected_error(void){
+  Node *root = &node50;
+  initNode(&node50,NULL,NULL,0);
+
+  avlAdd(&root, &node50);
+  TEST_ASSERT_EQUAL_PTR(&node50,root);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node50);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
+}
+
 /**
  *        add 50
  *    NULL-------> 50
@@ -58,8 +74,6 @@ void test_avlAdd_given_empty_tree_add_node1_expected_node1_to_be_root(void){
   avlAdd(&root, &node50);
   TEST_ASSERT_EQUAL_PTR(&node50,root);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node50);
-  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
-  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
 }
 
 /**
@@ -633,4 +647,102 @@ void test_avlRightBalanceTree_given_70_50_75_40_60_55_expect_balance_tree(void){
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node75);
+}
+
+/* Remove node 40
+ *          50(-1)           50(0)
+ *         /         --->
+ *       40(0)
+ */
+void test_avlDelete_given_node50_and_node40_delete_node40_expect_left_node50(void){
+  Node *root= &node50;
+  initNode(&node50,&node40,NULL,-1);
+  initNode(&node40,NULL,NULL,0);
+
+  avlDelete(&root,&node40);
+  TEST_ASSERT_EQUAL_PTR(&node50,root);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node50);
+}
+
+/* Remove node 55
+ *          50(0)              50(-1)
+ *         /   \      --->    /
+ *     40(0)  55(0)        40(0)
+ */
+void test_avlDelete_given_node50_and_node40_node55_delete_node55_expect_left_node50_node_40(void){
+  Node *root= &node50;
+  initNode(&node50,&node40,&node55,0);
+  initNode(&node40,NULL,NULL,0);
+  initNode(&node55,NULL,NULL,0);
+
+  avlDelete(&root,&node55);
+  TEST_ASSERT_EQUAL_PTR(&node50,root);
+  TEST_ASSERT_EQUAL_NODE(&node40,NULL,-1,&node50);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node40);
+}
+
+/* Remove node 55
+ *          50(-1)              50(-2)                    40(0)
+ *         /   \      --->    /             ---->        /   \
+ *     40(-1)  55(0)        40(-1)                    35(0) 50(0)
+ *      /                   /
+ *   35(0)                35(0)
+ */
+void test_avlDelete_given_node50_and_node40_node35_node55_delete_node55_expect_balance_tree(void){
+  Node *root= &node50;
+  initNode(&node50,&node40,&node55,-1);
+  initNode(&node40,&node35,NULL,-1);
+  initNode(&node35,NULL,NULL,0);
+  initNode(&node55,NULL,NULL,0);
+
+  avlDelete(&root,&node55);
+  TEST_ASSERT_EQUAL_PTR(&node40,root);
+  TEST_ASSERT_EQUAL_NODE(&node35,&node50,0,&node40);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node35);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node50);
+}
+
+/* Remove node 55
+ *          50(-1)              50(-2)                    40(1)
+ *         /   \      --->    /             ---->        /    \
+ *     40(0)  55(0)        40(-1)                    35(0)   50(-1)
+ *     /  \               /   \                              /
+ * 35(0) 45(0)         35(0) 45(0)                         45(0)
+ */
+void test_avlDelete_given_node50_and_node40_node35_node45_node55_delete_node55_expect_balance_tree(void){
+  Node *root= &node50;
+  initNode(&node50,&node40,&node55,-1);
+  initNode(&node40,&node35,&node45,0);
+  initNode(&node35,NULL,NULL,0);
+  initNode(&node45,NULL,NULL,0);
+  initNode(&node55,NULL,NULL,0);
+
+  avlDelete(&root,&node55);
+  TEST_ASSERT_EQUAL_PTR(&node40,root);
+  TEST_ASSERT_EQUAL_NODE(&node35,&node50,1,&node40);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node35);
+  TEST_ASSERT_EQUAL_NODE(&node45,NULL,-1,&node50);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node45);
+}
+
+/* Remove node 40
+ *          50(-1)              50(-1)
+ *         /   \      --->    /     \
+ *     40(0)  55(0)        45(-1)   55(0)
+ *     /  \                /
+ * 35(0) 45(0)           35(0)
+ */
+ void test_avlDelete_given_node50_and_node40_node35_node45_node55_delete_node40_expect_balance_tree(void){
+   Node *root= &node50;
+   initNode(&node50,&node40,&node55,-1);
+   initNode(&node40,&node35,&node45,0);
+   initNode(&node35,NULL,NULL,0);
+   initNode(&node45,NULL,NULL,0);
+   initNode(&node55,NULL,NULL,0);
+
+   avlDelete(&root,&node40);
+   TEST_ASSERT_EQUAL_PTR(&node50,root);
+   TEST_ASSERT_EQUAL_NODE(&node45,&node55,-1,&node50);
+   TEST_ASSERT_EQUAL_NODE(&node35,NULL,-1,&node45);
+   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node55);
 }
