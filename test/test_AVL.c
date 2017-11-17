@@ -410,7 +410,7 @@ void test_avlAdd_given_root_node55_and_node40_node65_node30_node60_node75_node80
    TEST_ASSERT_EQUAL_PTR(&node55,root);
    TEST_ASSERT_EQUAL_NODE(&node30,NULL,-1,&node40);
    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node30);
-   TEST_ASSERT_EQUAL_NODE(&node60,&node75,1,&node65);
+   TEST_ASSERT_EQUAL_NODE(&node60,&node80,1,&node65);
    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node60);
    TEST_ASSERT_EQUAL_NODE(&node75,&node85,0,&node80);
    TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node85);

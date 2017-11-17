@@ -41,7 +41,14 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd){
         }
         else
           return 0;
-      return avlBalanceRightTree(&(*rootPtr));
+
+      if((*rootPtr)->balanceFactor !=-2)
+        return 1;
+
+      if(avlBalanceRightTree(&(*rootPtr))==1)
+        return 0;
+      else
+        return 1;
     }
     else{
         heightChanged = avlAdd(&(*rootPtr)->right,nodeToAdd);
@@ -52,8 +59,13 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd){
           }
         else
           return 0;
+      if((*rootPtr)->balanceFactor != 2)
+        return 1;
 
-      return avlBalanceLeftTree(&(*rootPtr));
+      if(avlBalanceLeftTree(&(*rootPtr))==1)
+        return 0;
+      else
+        return 1;
       }
     }
   }
@@ -185,6 +197,7 @@ int avlBalanceRightTree(Node **rootPtr){
     node->balanceFactor = -1;
     node->left->balanceFactor = 1;
     *rootPtr = rotateRight(*rootPtr);
+    return 0;
     }
   else if(node->left->balanceFactor ==1){
     if(node->left->right->balanceFactor == 1){
@@ -192,18 +205,21 @@ int avlBalanceRightTree(Node **rootPtr){
       node->left->balanceFactor = -1;
       node->left->right->balanceFactor = 0;
       *rootPtr = rotateLeftRight(*rootPtr);
+      return 1;
       }
     else if(node->left->right->balanceFactor == 0){
       node->balanceFactor = 0;
       node->left->balanceFactor = 0;
       node->left->right->balanceFactor = 0;
       *rootPtr = rotateLeftRight(*rootPtr);
+      return 1;
       }
     else if(node->left->right->balanceFactor == -1){
       node->balanceFactor = 1;
       node->left->balanceFactor = 0;
       node->left->right->balanceFactor = 0;
       *rootPtr = rotateLeftRight(*rootPtr);
+      return 1;
       }
 
   }
