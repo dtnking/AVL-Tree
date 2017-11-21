@@ -71,42 +71,107 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd){
   }
 }
 
-/*Node *avlRemove(Node **rootPtr, int data){
+*Node *avlRemove(Node **rootPtr, int data){
+  int heightChange;
+  Node *dataRemove = _avlRemove(rootPtr,data,heightChange);
+    if(dataRemove == NULL)
+      printf("Couldn't find the node");
+    else
+      return dataRemove;
+}
+
+Node *_avlRemove(Node **rootPtr,int data, int *heightFlag){
+  int temp;
+  if(*rootPtr == NULL)
+    return NULL;
+
+  else{
+    if(*rootPtr->data == data){
+      if(*rootPtr->left == NULL && *rootPtr->right == NULL){
+      temp = *rootPtr;
+      *rootPtr = NULL;
+      return temp;
+    }
+      else if(*rootPtr->left == NULL){
+        temp = *rootPtr;
+        *rootPtr->balanceFactor -= 1;
+        *rootPtr = *rootPtr->right;
+        *heightFlag = 1;
+        return temp;
+      }
+      else if(*rootPtr->left == NULL){
+        temp = *rootPtr;
+        *rootPtr->balanceFactor += 1;
+        *rootPtr = *rootPtr->left;
+        *heightFlag = 1;
+        return temp;
+      }
+      else{
+        temp = *rootPtr;
+        *rootPtr = findNearest((*rootPtr)->right);
+        *heightFlag = 1;
+        temp->balanceFactor = (*rootPtr)->balanceFactor;
+        temp->left = (*rootPtr)->left;
+        temp->right = (*rootPtr)->right;
+        (*rootPtr) = temp;
+      }
+    }
+    else{
+      if((*rootPtr)->data > data){
+        avlRemove((*rootPtr)->left,data);
+        if(heightChanged == 1){
+          (*rootPtr)->balanceFactor  +=1;
+            if((*rootPtr)->balanceFactor != 0 && (*rootPtr)->balanceFactor != 2)
+
+      }
+    }
+
+  }
+}
+/*
+Node *_avlRemove(Node **rootPtr, int data,int *heightFlag){
   Node *temp;
   int heightChanged;
   if(*rootPtr==NULL)
-    return 0;
+    return NULL;
   if ((*rootPtr)->data == data){
     if(((*rootPtr)->left == NULL) && ((*rootPtr)->right == NULL)){
       *rootPtr = NULL;
-      return 1;
+      return rootPtr;
       }else{
         if((*rootPtr)->right == NULL){
+          temp = (*rootPtr);
           (*rootPtr)->balanceFactor += 1;
           (*rootPtr)->left->balanceFactor = (*rootPtr)->balanceFactor;
           (*rootPtr) = (*rootPtr)->left;
+          *heightFlag = 1;
+          return temp;
         }
         else if((*rootPtr)->left == NULL){
+          temp = (*rootPtr);
           (*rootPtr)->balanceFactor -= 1;
           (*rootPtr)->right->balanceFactor = (*rootPtr)->balanceFactor;
           (*rootPtr) = (*rootPtr)->right;
+          *heightFlag = 1;
+          return temp;
         }
         else {
           temp = findNearest((*rootPtr)->right);
-          heightChanged=avlDelete(rootPtr,temp->data);
+          //avlRemove(rootPtr,temp->data);
           temp->balanceFactor = (*rootPtr)->balanceFactor;
           temp->left = (*rootPtr)->left;
           temp->right = (*rootPtr)->right;
           (*rootPtr) = temp;
         }
       }
+
       if((*rootPtr)->balanceFactor != 0)
-        return 0;
-      return 1;
+        *heightFlag = 0;
+      *heightFlag = 1;
   }
   else{
     if((*rootPtr)->data > data){
-      heightChanged = avlDelete(&(*rootPtr)->left,data);
+      *heightFlag = avlDelete(&(*rootPtr)->left,data);
       if(heightChanged == 1){
         (*rootPtr)->balanceFactor  +=1;
           if((*rootPtr)->balanceFactor != 0 && (*rootPtr)->balanceFactor != 2)
@@ -126,13 +191,25 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd){
     }
   }
 }
-*/
 
+*/
 Node *findNearest(Node *node){
+  Node *temp;
   if(node->left!=NULL)
     return findNearest(node->left);
-
-    return node;
+  else{
+    if(node->right!=NULL){
+      temp = node;
+      node = node->right;
+      node->balanceFactor -= 1;
+      return temp;
+    }
+    else{
+      temp = node;
+      node = NULL;
+      return temp;
+    }
+  }
 }
 
 int avlBalanceLeftTree(Node **rootPtr){
