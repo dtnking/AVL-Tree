@@ -71,61 +71,89 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd){
   }
 }
 
-*Node *avlRemove(Node **rootPtr, int data){
+Node *avlRemove(Node **rootPtr, int delData){
   int heightChange;
-  Node *dataRemove = _avlRemove(rootPtr,data,heightChange);
+  Node *dataRemove = _avlRemove(rootPtr,delData,&heightChange);
     if(dataRemove == NULL)
       printf("Couldn't find the node");
     else
       return dataRemove;
 }
 
-Node *_avlRemove(Node **rootPtr,int data, int *heightFlag){
-  int temp;
+Node *_avlRemove(Node **rootPtr,int delData, int *heightFlag){
+  Node *temp;
   if(*rootPtr == NULL)
     return NULL;
 
   else{
-    if(*rootPtr->data == data){
-      if(*rootPtr->left == NULL && *rootPtr->right == NULL){
+    if((*rootPtr)->data == delData){
+      if((*rootPtr)->left == NULL && (*rootPtr)->right == NULL){
       temp = *rootPtr;
       *rootPtr = NULL;
+      *heightFlag = 1;
       return temp;
     }
-      else if(*rootPtr->left == NULL){
+      else if((*rootPtr)->left == NULL){
         temp = *rootPtr;
-        *rootPtr->balanceFactor -= 1;
-        *rootPtr = *rootPtr->right;
+        (*rootPtr)->balanceFactor -= 1;
+        *rootPtr = (*rootPtr)->right;
         *heightFlag = 1;
         return temp;
       }
-      else if(*rootPtr->left == NULL){
+      else if((*rootPtr)->right == NULL){
         temp = *rootPtr;
-        *rootPtr->balanceFactor += 1;
-        *rootPtr = *rootPtr->left;
+        (*rootPtr)->balanceFactor += 1;
+        *rootPtr = (*rootPtr)->left;
         *heightFlag = 1;
         return temp;
       }
       else{
         temp = *rootPtr;
-        *rootPtr = findNearest((*rootPtr)->right);
-        *heightFlag = 1;
-        temp->balanceFactor = (*rootPtr)->balanceFactor;
-        temp->left = (*rootPtr)->left;
-        temp->right = (*rootPtr)->right;
-        (*rootPtr) = temp;
+        *rootPtr = findNearest(&(*rootPtr)->right,heightFlag);
+        if(*heightFlag == 1){
+          temp->balanceFactor -= 1;
+        }
+        (*rootPtr)->balanceFactor = temp->balanceFactor;
+        if(temp->right == NULL){
+          (*rootPtr)->left = temp->left;
+        }
+        else{
+          (*rootPtr)->left = temp->left;
+          (*rootPtr)->right = temp->right;
+        }
+        *heightFlag = avlBalanceRightTree(rootPtr);
+
+        if((*rootPtr)->balanceFactor != 0){
+          *heightFlag = 0;
+        }
       }
     }
     else{
-      if((*rootPtr)->data > data){
-        avlRemove((*rootPtr)->left,data);
-        if(heightChanged == 1){
-          (*rootPtr)->balanceFactor  +=1;
-            if((*rootPtr)->balanceFactor != 0 && (*rootPtr)->balanceFactor != 2)
+      if((*rootPtr)->data > delData){
+        temp = _avlRemove(&(*(rootPtr))->left,delData,heightFlag);
+        if(*heightFlag == 1){
+          (*rootPtr)->balanceFactor+=1;
+          *heightFlag = avlBalanceLeftTree(rootPtr);
+        }
+        else{
+          *heightFlag = 0;
+        }
+        return temp;
+      }
+      else{
+        temp = _avlRemove(&(*rootPtr)->right ,delData,heightFlag);
+        if(*heightFlag == 1){
+          (*rootPtr)->balanceFactor  -=1;
+          *heightFlag = avlBalanceRightTree(rootPtr);
+        }
+        else{
+          *heightFlag = 0;
+        }
 
       }
-    }
 
+    }
+      return temp;
   }
 }
 /*
@@ -193,22 +221,29 @@ Node *_avlRemove(Node **rootPtr, int data,int *heightFlag){
 }
 
 */
-Node *findNearest(Node *node){
+Node *findNearest(Node **rootPtr,int *heightFlag){
   Node *temp;
-  if(node->left!=NULL)
-    return findNearest(node->left);
+  if((*rootPtr) == NULL){
+        *heightFlag = 1;
+         return NULL;
+    }
+  if((*rootPtr)->left!=NULL){
+    temp = findNearest(&(*rootPtr)->left,heightFlag);
+    if(*heightFlag == 1){
+      (*rootPtr)->balanceFactor += 1;
+      *heightFlag = avlBalanceLeftTree(rootPtr);
+    }
+    if(temp->right != NULL){
+      (*rootPtr)->left = temp->right;
+      temp->right = NULL;
+    }
+    return temp;
+  }
   else{
-    if(node->right!=NULL){
-      temp = node;
-      node = node->right;
-      node->balanceFactor -= 1;
-      return temp;
-    }
-    else{
-      temp = node;
-      node = NULL;
-      return temp;
-    }
+    temp = (*rootPtr);
+    (*rootPtr) = NULL;
+    *heightFlag = 1;
+    return temp;
   }
 }
 

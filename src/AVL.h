@@ -8,7 +8,9 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd);
 int avlBalanceLeftTree(Node **rootPtr);
 int avlBalanceRightTree(Node **rootPtr);
 int avlDelete(Node **rootPtr, Node *nodeToDelete);  //Node *avlRemove(Node **rootPtr,int data)
-Node *findNearest(Node *node);
+Node *_avlRemove(Node **rootPtr,int delData, int *heightFlag);
+Node *avlRemove(Node **rootPtr,int delData);
+Node *findNearest(Node **rootPtr,int *heightFlag);
 
 
 #endif // _AVL_H
