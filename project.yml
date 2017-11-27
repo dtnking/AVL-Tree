@@ -43,6 +43,7 @@
   :test_preprocess:
     - *common_defines
     - TEST
+    - CEXCEPTION_USE_CONFIG
 
 :cmock:
   :mock_prefix: mock_
