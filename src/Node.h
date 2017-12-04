@@ -3,6 +3,15 @@
 
 #include <stdint.h>
 
+typedef struct intNode intNode;
+struct intNode{
+  intNode *left;
+  intNode *right;
+  int balanceFactor;
+  int height;
+  uint32_t data;
+};
+
 typedef struct Node Node;
 struct Node{
   Node *left;

@@ -6,12 +6,12 @@
 #include "AvlInteger.h"
 #include <stdio.h>
 
-typedef int (Compare)(Node node,Node refNode);
+typedef int (*Compare)(void *data,Node *refNode);
 int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare);
 int avlBalanceLeftTree(Node **rootPtr);
 int avlBalanceRightTree(Node **rootPtr);
-Node *_avlRemove(Node **rootPtr,int delData, int *heightFlag);
-Node *avlRemove(Node **rootPtr,int delData);
+Node *_avlRemove(Node **rootPtr,int delData,  Compare compare,int *heightFlag);
+Node *avlRemove(Node **rootPtr,int delData, Compare compare);
 Node *findNearest(Node **rootPtr,int *heightFlag);
 
 
