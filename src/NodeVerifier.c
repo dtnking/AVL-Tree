@@ -20,7 +20,7 @@ char *createMessage(char *message, ...){
   return buffer;
 }
 
-void testAssertEqualNode(intNode *left, intNode *right, int bf, intNode *node,int lineNo){
+void testAssertEqualNode(Node *left, Node *right, int bf, Node *node,int lineNo){
   char *error;
   if(left != node->left){
       error = createMessage("Expected left node to be 0x%p, but was %p",  \
