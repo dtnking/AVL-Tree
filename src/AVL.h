@@ -5,6 +5,8 @@
 #include "NodeVerifier.h"
 #include "AvlInteger.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdint.h>
 
 typedef int (*Compare)(void *data,Node *refNode);
 int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare);

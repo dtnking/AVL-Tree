@@ -6,18 +6,21 @@
 # This sample, therefore, only demonstrates running a collection of unit tests.
 
 :project:
-  :use_exceptions: FALSE
+  :use_exceptions: TRUE
   :use_test_preprocessor: TRUE
   :use_auxiliary_dependencies: TRUE
   :build_root: build
-#  :release_build: TRUE
+  :release_build: TRUE
   :test_file_prefix: test_
 
-#:release_build:
-#  :output: MyApp.out
+:release_build:
+  :output: avl.exe
 #  :use_assembly: FALSE
 
 :environment:
+
+:module_generator:
+  :naming: bumpy
 
 :extension:
   :executable: .exe
@@ -40,10 +43,10 @@
     - *common_defines
     - TEST
     - _ISOC99_SOURCE
+    - CEXCEPTION_USE_CONFIG_FILE
   :test_preprocess:
     - *common_defines
     - TEST
-    - CEXCEPTION_USE_CONFIG
 
 :cmock:
   :mock_prefix: mock_

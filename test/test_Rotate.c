@@ -88,9 +88,9 @@ void test_rotateLeft1(void){
 
   root = rotateLeft(&node10);
   TEST_ASSERT_EQUAL_PTR(&node20,root);
-  TEST_ASSERT_EQUAL_NODE(NULL,&node25,0,&node10);
+  TEST_ASSERT_EQUAL_NODE(NULL,NULL,2,&node10);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node25);
-  TEST_ASSERT_EQUAL_NODE(NULL,&node25,0,&node20);
+  TEST_ASSERT_EQUAL_NODE(&node10,&node25,1,&node20);
 }
 
 
@@ -116,8 +116,8 @@ void test_rotateLeftRight(void){
   TEST_ASSERT_EQUAL_PTR(&node20,root);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node15);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node25);
-  TEST_ASSERT_EQUAL_NODE(NULL,&node15,1,&node10);
-  TEST_ASSERT_EQUAL_NODE(&node25,NULL,0,&node30);
+  TEST_ASSERT_EQUAL_NODE(NULL,&node15,2,&node10);
+  TEST_ASSERT_EQUAL_NODE(&node25,NULL,-3,&node30);
   TEST_ASSERT_EQUAL_NODE(&node10,&node30,0,&node20);
 }
 
@@ -144,7 +144,7 @@ void test_rotateRightLeft(void){
   TEST_ASSERT_EQUAL_PTR(&node20,root);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node15);
   TEST_ASSERT_EQUAL_NODE(NULL,NULL,0,&node25);
-  TEST_ASSERT_EQUAL_NODE(NULL,&node15,1,&node10);
-  TEST_ASSERT_EQUAL_NODE(&node25,NULL,0,&node30);
+  TEST_ASSERT_EQUAL_NODE(NULL,&node15,3,&node10);
+  TEST_ASSERT_EQUAL_NODE(&node25,NULL,-2,&node30);
   TEST_ASSERT_EQUAL_NODE(&node10,&node30,0,&node20);
 }

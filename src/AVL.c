@@ -3,6 +3,8 @@
 #include <malloc.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include "Exception.h"
+#include "CException.h"
 
 /** ------------------------------------------------------------------
  *           before         |        |        after         |
@@ -26,9 +28,6 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare){
   int heightChanged;
   char *error;
 
-  if(*rootPtr == nodeToAdd){
-
-  }else{
   if(*rootPtr == NULL){
     *rootPtr = nodeToAdd;
     return 1;
@@ -68,8 +67,9 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare){
       else
         return 1;
       }
+      else
+        Throw(createException("Node to add is already exist", NODE_ADD_EXIST));
     }
-  }
 }
 
 Node *avlRemove(Node **rootPtr, int delData, Compare compare){

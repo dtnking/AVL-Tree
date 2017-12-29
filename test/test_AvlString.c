@@ -8,9 +8,11 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "Rotate.h"
-
+#include "Exception.h"
+#include "CException.h"
 
 StringNode nodeAli,nodeAbu,nodeAkau,nodeAlirosa,nodeAba,nodeAmin;
+CEXCEPTION_T ex;
 
 
 #define initStringNode(n,l,r,bf)  initNode((Node *)n,(Node *)l,(Node *)r,bf)
@@ -25,22 +27,23 @@ void setUp(void)
   nodeAmin.data="Amin";
 }
 
-void tearDown(void)
-{
-}
+void tearDown(void){}
 
 
  void test_AVL_StringAdd(void){
    initStringNode(&nodeAli,NULL,NULL,0);
    initStringNode(&nodeAmin,NULL,NULL,0);
    StringNode *root = &nodeAli;
-
+   Try{
    avlAddString(&root,&nodeAmin);
    TEST_ASSERT_EQUAL_PTR(root,&nodeAli);
    TEST_ASSERT_EQUAL_STRING_NODE(NULL,&nodeAmin,1,&nodeAli);
    avlAddString(&root,&nodeAbu);
    TEST_ASSERT_EQUAL_PTR(root,&nodeAli);
    TEST_ASSERT_EQUAL_STRING_NODE(&nodeAbu,&nodeAmin,0,&nodeAli);
+   }Catch(ex){
+     dumpException(ex);
+   }
  }
 
  void test_AVL_StringRemove(void){
@@ -49,6 +52,7 @@ void tearDown(void)
    initStringNode(&nodeAbu,NULL,NULL,0);
    StringNode *root = &nodeAli;
 
+   Try{
    avlRemoveString(&root,"Amin");
    TEST_ASSERT_EQUAL_PTR(root,&nodeAli);
    TEST_ASSERT_EQUAL_PTR(&nodeAbu,nodeAli.left);
@@ -57,4 +61,7 @@ void tearDown(void)
    avlRemoveString(&root,"Abu");
    TEST_ASSERT_EQUAL_PTR(root,&nodeAli);
    TEST_ASSERT_EQUAL_STRING_NODE(NULL,NULL,0,&nodeAli);
+   }Catch(ex){
+     dumpException(ex);
+   }
  }
