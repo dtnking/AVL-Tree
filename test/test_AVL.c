@@ -11,7 +11,10 @@
 #include "CException.h"
 
 intNode node1, node5, node10, node15, node20, node25, node30, node35, node40;
-intNode node45, node50, node55,node60,node65,node70,node75,node80,node85,node90,node95,node100,node105,node110,node115,node120,node125,node130,node135,node140,node145,node150,node155,node160,node165,node170,node175,node180,node185,node190,node195,node200,node205,node210,node215,node220,node225,node230;
+intNode node45, node50, node55,node60,node65,node70,node75,node80,node85,node90;
+intNode node95,node100,node105,node110,node115,node120,node125,node130,node135;
+intNode node140,node145,node150,node155,node160,node165,node170,node175,node180;
+intNode node185,node190,node195,node200,node205,node210,node215,node220,node225,node230;
 
 #define initIntegerNode(n,l,r,bf)  initNode((Node *)n,(Node *)l,(Node *)r,bf)
 
@@ -65,7 +68,6 @@ void setUp(void){
   node220.data = 220;
   node225.data = 225;
   node230.data = 230;
-
 }
 
 void tearDown(void){}
@@ -255,54 +257,54 @@ void test_avlAdd_given_root_node55_and_node65_add_node70_expected_balance_tree(v
  *       35                 35  45
  */
 void test_avlAdd_given_root_node55_and_node40_node60_node35_add_node45_expected_balance_tree(void){
-   intNode *root = &node55;
-   initIntegerNode(&node55,&node40,&node60,-1);
-   initIntegerNode(&node40,&node35,NULL,-1);
-   initIntegerNode(&node60,NULL,NULL,0);
-   initIntegerNode(&node35,NULL,NULL,0);
-   initIntegerNode(&node45,NULL,NULL,0);
+  intNode *root = &node55;
+  initIntegerNode(&node55,&node40,&node60,-1);
+  initIntegerNode(&node40,&node35,NULL,-1);
+  initIntegerNode(&node60,NULL,NULL,0);
+  initIntegerNode(&node35,NULL,NULL,0);
+  initIntegerNode(&node45,NULL,NULL,0);
 
-   Try{
+  Try{
    avlAddInteger(&root, &node45);
-   }Catch(ex){
-    dumpException(ex);
-   }
-   TEST_ASSERT_EQUAL_PTR(&node55,root);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node45);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node35);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(&node35,&node45,0,&node40);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node60,-1,&node55);
- }
-
- /**
-  *   (add 35):
-  *           55                   55
-  *          /  \                 / \
-  *         40  60    ---->     40  60
-  *          \                 / \
-  *          45              35  45
-  */
-void test_avlAdd_given_root_node55_and_node40_node60_node45_add_node35_expected_balance_tree(void){
-    intNode *root = &node55;
-    initIntegerNode(&node55,&node40,&node60,-1);
-    initIntegerNode(&node40,NULL,&node45,1);
-    initIntegerNode(&node60,NULL,NULL,0);
-    initIntegerNode(&node35,NULL,NULL,0);
-    initIntegerNode(&node45,NULL,NULL,0);
-
-    Try{
-    avlAddInteger(&root, &node35);
-    }Catch(ex){
-      dumpException(ex);
-    }
-    TEST_ASSERT_EQUAL_PTR(&node55,root);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node45);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node35);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(&node35,&node45,0,&node40);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node60,-1,&node55);
+  }Catch(ex){
+   dumpException(ex);
   }
+  TEST_ASSERT_EQUAL_PTR(&node55,root);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node45);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node35);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node35,&node45,0,&node40);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node60,-1,&node55);
+}
+
+/*
+ *   (add 35):
+ *           55                   55
+ *          /  \                 / \
+ *         40  60    ---->     40  60
+ *          \                 / \
+ *          45              35  45
+ */
+void test_avlAdd_given_root_node55_and_node40_node60_node45_add_node35_expected_balance_tree(void){
+  intNode *root = &node55;
+  initIntegerNode(&node55,&node40,&node60,-1);
+  initIntegerNode(&node40,NULL,&node45,1);
+  initIntegerNode(&node60,NULL,NULL,0);
+  initIntegerNode(&node35,NULL,NULL,0);
+  initIntegerNode(&node45,NULL,NULL,0);
+
+  Try{
+    avlAddInteger(&root, &node35);
+  }Catch(ex){
+    dumpException(ex);
+  }
+  TEST_ASSERT_EQUAL_PTR(&node55,root);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node45);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node35);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node35,&node45,0,&node40);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node60,-1,&node55);
+}
 
 /**
  *   (add 60):
@@ -313,25 +315,25 @@ void test_avlAdd_given_root_node55_and_node40_node60_node45_add_node35_expected_
  *              75                 60  75
  */
 void test_avlAdd_given_root_node55_and_node40_node60_node75_add_node60_expected_balance_tree(void){
-   intNode *root = &node55;
-   initIntegerNode(&node55,&node40,&node65,1);
-   initIntegerNode(&node40,NULL,NULL,0);
-   initIntegerNode(&node65,NULL,&node75,1);
-   initIntegerNode(&node75,NULL,NULL,0);
-   initIntegerNode(&node60,NULL,NULL,0);
+  intNode *root = &node55;
+  initIntegerNode(&node55,&node40,&node65,1);
+  initIntegerNode(&node40,NULL,NULL,0);
+  initIntegerNode(&node65,NULL,&node75,1);
+  initIntegerNode(&node75,NULL,NULL,0);
+  initIntegerNode(&node60,NULL,NULL,0);
 
-   Try{
-   avlAddInteger(&root, &node60);
-   }Catch(ex){
+  Try{
+    avlAddInteger(&root, &node60);
+  }Catch(ex){
      dumpException(ex);
-   }
-   TEST_ASSERT_EQUAL_PTR(&node55,root);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node75);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(&node60,&node75,0,&node65);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node65,1,&node55);
-   }
+  }
+  TEST_ASSERT_EQUAL_PTR(&node55,root);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node75);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node60,&node75,0,&node65);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node65,1,&node55);
+}
 
 /**
  *   (add 75):
@@ -342,24 +344,24 @@ void test_avlAdd_given_root_node55_and_node40_node60_node75_add_node60_expected_
  *           60                    60  75
  */
 void test_avlAdd_given_root_node55_and_node40_node60_node65_add_node75_expected_balance_tree(void){
-    intNode *root = &node55;
-    initIntegerNode(&node55,&node40,&node65,1);
-    initIntegerNode(&node40,NULL,NULL,0);
-    initIntegerNode(&node65,&node60,NULL,-1);
-    initIntegerNode(&node75,NULL,NULL,0);
-    initIntegerNode(&node60,NULL,NULL,0);
+  intNode *root = &node55;
+  initIntegerNode(&node55,&node40,&node65,1);
+  initIntegerNode(&node40,NULL,NULL,0);
+  initIntegerNode(&node65,&node60,NULL,-1);
+  initIntegerNode(&node75,NULL,NULL,0);
+  initIntegerNode(&node60,NULL,NULL,0);
 
-    Try{
+  Try{
     avlAddInteger(&root, &node75);
-    }Catch(ex){
-      dumpException(ex);
-    }
-    TEST_ASSERT_EQUAL_PTR(&node55,root);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node75);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(&node60,&node75,0,&node65);
-    TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node65,1,&node55);
+  }Catch(ex){
+    dumpException(ex);
+  }
+  TEST_ASSERT_EQUAL_PTR(&node55,root);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node75);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node60,&node75,0,&node65);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node65,1,&node55);
 }
 
 
@@ -374,27 +376,27 @@ void test_avlAdd_given_root_node55_and_node40_node60_node65_add_node75_expected_
   *                                    80
  */
 void test_avlAdd_given_root_node55_and_node40_node65_node60_node75_add_node80_expected_balance_tree(void){
-   intNode *root = &node55;
-   initIntegerNode(&node55,&node40,&node65,1);
-   initIntegerNode(&node40,NULL,NULL,0);
-   initIntegerNode(&node65,&node60,&node75,0);
-   initIntegerNode(&node75,NULL,NULL,0);
-   initIntegerNode(&node60,NULL,NULL,0);
-   initIntegerNode(&node80,NULL,NULL,0);
+  intNode *root = &node55;
+  initIntegerNode(&node55,&node40,&node65,1);
+  initIntegerNode(&node40,NULL,NULL,0);
+  initIntegerNode(&node65,&node60,&node75,0);
+  initIntegerNode(&node75,NULL,NULL,0);
+  initIntegerNode(&node60,NULL,NULL,0);
+  initIntegerNode(&node80,NULL,NULL,0);
 
-   Try{
-   avlAddInteger(&root, &node80);
-   }Catch(ex){
-     dumpException(ex);
-   }
-   TEST_ASSERT_EQUAL_PTR(&node65,root);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node80);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(&node55,&node75,0,&node65);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node60,0,&node55);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,&node80,1,&node75);
-   }
+  Try{
+    avlAddInteger(&root, &node80);
+  }Catch(ex){
+    dumpException(ex);
+  }
+  TEST_ASSERT_EQUAL_PTR(&node65,root);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node80);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node55,&node75,0,&node65);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node60,0,&node55);
+  TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,&node80,1,&node75);
+}
 
 /**
  *   (add 80):
@@ -467,7 +469,19 @@ void test_avlAdd_given_root_node55_and_node40_node65_node30_node60_node75_node80
    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node85);
    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node75);
 
-   }
+}
+
+/* Remove 40
+ *       40(0)    -------->   NULL
+ */
+void test_RemoveNode_given_40_remove_expect_NULL(void){
+   intNode *root = &node40;
+   initIntegerNode(&node40,NULL,NULL,0);
+
+   avlRemoveInteger(&root,40);
+   TEST_ASSERT_EQUAL_PTR(NULL,root);
+}
+
 
 /* Remove node 40
  *          50(-1)           50(0)
@@ -584,7 +598,7 @@ void test_avlRemove_given_node50_and_node40_node35_node45_node55_delete_node55_e
 
    avlRemoveInteger(&root,35);
    TEST_ASSERT_EQUAL_PTR(&node50,root);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node55,-1,&node50);  
+   TEST_ASSERT_EQUAL_INTEGER_NODE(&node40,&node55,-1,&node50);
    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,&node45,1,&node40);
    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node55);
 }
@@ -627,7 +641,7 @@ void test_avlRemove_given_node50_and_node40_node35_node45_node55_delete_node55_e
  *                \
  *               75(0)
  */
- void test_avlRemove_given_Node_above_delete_node50_expect_balance_tree1(void){
+ void test_avlRemove_given_Node_above_delete_node50_expect_balance_tree_1(void){
    intNode *root= &node50;
    initIntegerNode(&node50,&node40,&node70,1);
    initIntegerNode(&node40,NULL,NULL,0);
@@ -648,7 +662,7 @@ void test_avlRemove_given_node50_and_node40_node35_node45_node55_delete_node55_e
  *             /  \                      \
  *          65(0) 75(0)                 75(0)
  */
- void test_avlRemove_given_Node_above_delete_node50_expect_balance_tree2(void){
+void test_avlRemove_given_Node_above_delete_node50_expect_balance_tree_2(void){
    intNode *root= &node50;
    initIntegerNode(&node50,&node40,&node70,1);
    initIntegerNode(&node40,NULL,NULL,0);
@@ -700,7 +714,7 @@ void test_avlRemove_given_node50_and_node40_node35_node45_node55_delete_node55_e
  *     40(0)
  *
  */
- void test_avlRemove_given_Node_above_delete_node50_expect_balance_tree4(void){
+ void test_avlRemove_given_Node_above_delete_node50_expected_balance_tree(void){
    intNode *root= &node50;
    initIntegerNode(&node50,&node40,NULL,-1);
    initIntegerNode(&node40,NULL,NULL,0);
@@ -710,23 +724,21 @@ void test_avlRemove_given_node50_and_node40_node35_node45_node55_delete_node55_e
    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
 }
 
-
-
-/**
----------------------------------------remove 60----------------------------------------
-*                  60                           60 (0)
-*                /    \       remove 40        /   \
-*               40      90    ---------->     30    90(1)
-*              /  \    /   \                 / \   /  \
-*            20   50  75   100             20  50  75  100
-*           / \    \   \                   /   / \   \
-*         10   30   55  80               10   35  55  80
-*               \
-*               35
-*
-**/
-void test_remove_given_Avl_tree_remove_60_test2(void){
-
+/* Remove 40
+ *
+ *                  60                           60 (0)
+ *                /    \       remove 40        /   \
+ *               40      90    ---------->     30    90(1)
+ *              /  \    /   \                 / \   /  \
+ *            20   50  75   100             20  50  75  100
+ *           / \    \   \                   /   / \   \
+ *         10   30   55  80               10   35  55  80
+ *               \
+ *               35
+ *
+ */
+void test_avlRemove_given_Node_above_remove_60_expected_balanced_tree(void){
+  intNode *root = &node60;
   initIntegerNode(&node60,&node40,&node90,-1);
   initIntegerNode(&node40,&node20,&node50,-1);
   initIntegerNode(&node90,&node75,&node100,-1);
@@ -740,8 +752,6 @@ void test_remove_given_Avl_tree_remove_60_test2(void){
   initIntegerNode(&node80,NULL,NULL,0);
   initIntegerNode(&node100,NULL,NULL,0);
 
-
-  intNode *root = &node60;
   avlRemoveInteger(&root,40);
   TEST_ASSERT_EQUAL_PTR(&node60,root);
   TEST_ASSERT_EQUAL_INTEGER_NODE(&node30,&node90,0,&node60);
@@ -755,24 +765,21 @@ void test_remove_given_Avl_tree_remove_60_test2(void){
   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node55);
   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node80);
   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node100);
-
 }
-/**
----------------------------------------remove 60----------------------------------------
-*
-*                               remove 40                           rotateleft at 50
-*               40        ------------------->      45            ---------------->         45
-*              /  \                                 / \                                    / \
-*            20   50                               20  50                                 20  55
-*           /    /  \                             /     \                                 /   / \
-*         10    45   55                          10      55                             10   50  60
-*                      \                                   \
-*                       60                                 60
-*
-**/
 
-void test_remove_testing(void){
-
+/* remove 40
+ *
+ *               40        ------------------->      45            ---------------->         45
+ *              /  \                                 / \                                    / \
+ *            20   50                               20  50                                 20  55
+ *           /    /  \                             /     \                                 /   / \
+ *         10    45   55                          10      55                             10   50  60
+ *                      \                                   \
+ *                       60                                 60
+ *
+ */
+void test_given_tree_above_remove_40_expeceted_balanced_tree(void){
+  intNode *root = &node40;
   initIntegerNode(&node40,&node20,&node50,1);
   initIntegerNode(&node20,&node10,NULL,-1);
   initIntegerNode(&node50,&node45,&node55,1);
@@ -781,8 +788,6 @@ void test_remove_testing(void){
   initIntegerNode(&node45,NULL,NULL,0);
   initIntegerNode(&node60,NULL,NULL,0);
 
-
-  intNode *root = &node40;
   avlRemoveInteger(&root,40);
   TEST_ASSERT_EQUAL_PTR(&node45,root);
   TEST_ASSERT_EQUAL_INTEGER_NODE(&node20,&node55,0,&node45);;
@@ -791,85 +796,4 @@ void test_remove_testing(void){
   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node10);
   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node50);
   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node60);
-
 }
-
-/* Remove node 60
- *
- *                                                            130(0)
- *                                   /                                                        \
- *                               60(1)                                                        170(1)
- *                        /                  \                                        /                          \
- *                40(-1)                    105(-1)                               155(-1)                        210(-1)
- *              /        \             /            \                        /        \                    /              \
- *          30(-1)       55(-1)       80(1)         115(1)               145(-1)       165(-1)          185(1)               220(1)
- *          /    \        /        /   \         /     \               /      \         /              /    \               /     \
- *      25(-1)   35(0) 50(0)    75(-1)  90(1)   110(0)   120(1)      140(-1)   150(0) 160(0)       180(-1)   195(1)      215(0)    225(1)
- *       /                      /     /   \               \          /                               /       /   \                   \
- *    20(0)                 70(0) 85(0)  95(1)           125(0)   135(0)                         175(0) 190(0) 200(1)             230(0)
- *                                         \                                                                      \
- *                                       100(0)                                                                 205(0)
- *
- */
- void xtest_avlRemove_given_Node_above_delete_node60_expect_balance_tree3(void){
-   intNode *root= &node130;
-   initIntegerNode(&node130,&node60,&node170,0);
-   initIntegerNode(&node60,&node40,&node105,1);
-   initIntegerNode(&node170,&node155,&node210,1);
-   initIntegerNode(&node40,&node30,&node55,-1);
-   initIntegerNode(&node105,&node80,&node155,1);
-   initIntegerNode(&node155,&node145,&node165,-1);
-   initIntegerNode(&node210,&node185,&node220,1);
-   initIntegerNode(&node30,&node25,&node35,-1);
-   initIntegerNode(&node55,&node50,NULL,-1);
-   initIntegerNode(&node80,&node75,&node90,1);
-   initIntegerNode(&node115,&node110,&node120,1);
-   initIntegerNode(&node145,&node140,&node150,-1);
-   initIntegerNode(&node165,&node160,NULL,-1);
-   initIntegerNode(&node185,&node180,&node195,1);
-   initIntegerNode(&node220,&node215,&node225,1);
-   initIntegerNode(&node25,&node20,NULL,-1);
-   initIntegerNode(&node35,NULL,NULL,0);
-   initIntegerNode(&node50,NULL,NULL,0);
-   initIntegerNode(&node75,&node70,NULL,-1);
-   initIntegerNode(&node90,&node85,&node95,1);
-   initIntegerNode(&node110,NULL,NULL,0);
-   initIntegerNode(&node120,NULL,&node125,1);
-   initIntegerNode(&node140,&node135,NULL,-1);
-   initIntegerNode(&node150,NULL,NULL,0);
-   initIntegerNode(&node160,NULL,NULL,0);
-   initIntegerNode(&node180,&node175,NULL,-1);
-   initIntegerNode(&node195,&node190,&node200,1);
-   initIntegerNode(&node215,NULL,NULL,0);
-   initIntegerNode(&node225,NULL,&node230,1);
-   initIntegerNode(&node20,NULL,NULL,0);
-   initIntegerNode(&node70,NULL,NULL,0);
-   initIntegerNode(&node85,NULL,NULL,0);
-   initIntegerNode(&node95,NULL,&node100,1);
-   initIntegerNode(&node125,NULL,NULL,0);
-   initIntegerNode(&node135,NULL,NULL,0);
-   initIntegerNode(&node175,NULL,NULL,0);
-   initIntegerNode(&node190,NULL,NULL,0);
-   initIntegerNode(&node200,NULL,&node205,0);
-   initIntegerNode(&node230,NULL,NULL,0);
-
-
-
-   avlRemoveInteger(&root,60);
-   TEST_ASSERT_EQUAL_PTR(&node130,root);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(&node70,&node170,1,&node130);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,&node75,1,&node70);
-   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node75);
- }
-
-
- void test_RemoveNode_given_40_remove_expect_NULL(void){
-
-
-     initIntegerNode(&node40,NULL,NULL,0);
-
-     intNode *root = &node40;
-     avlRemoveInteger(&root,40);
-     TEST_ASSERT_EQUAL_PTR(NULL,root);
- }
