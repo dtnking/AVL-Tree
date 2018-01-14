@@ -32,7 +32,7 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare){
     *rootPtr = nodeToAdd;
     return 1;
   } else {
-    if (compare((void *)nodeToAdd->data,*rootPtr)== -1){
+    if (compare((void *)(intptr_t)nodeToAdd->data,*rootPtr)== -1){
         heightChanged = avlAdd(&(*rootPtr)->left,nodeToAdd,compare);
         if(heightChanged==1){
           (*rootPtr)->balanceFactor -= 1 ;
@@ -45,12 +45,12 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare){
       if((*rootPtr)->balanceFactor !=-2)
         return 1;
 
-      if(avlBalanceRightTree(&(*rootPtr),heightChanged)==1)
+      if(avlBalanceRightTree(&(*rootPtr))==1)
         return 0;
       else
         return 1;
     }
-    else if(compare((void *)nodeToAdd->data,*rootPtr)== 1){
+    else if(compare((void *)(intptr_t)nodeToAdd->data,*rootPtr)== 1){
         heightChanged = avlAdd(&(*rootPtr)->right,nodeToAdd,compare);
         if(heightChanged==1){
           (*rootPtr)->balanceFactor += 1;
@@ -62,7 +62,7 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare){
       if((*rootPtr)->balanceFactor != 2)
         return 1;
 
-      if(avlBalanceLeftTree(&(*rootPtr),heightChanged)==1)
+      if(avlBalanceLeftTree(&(*rootPtr))==1)
         return 0;
       else
         return 1;
@@ -123,7 +123,7 @@ Node *_avlRemove(Node **rootPtr,int delData,Compare compare, int *heightFlag){
           (*rootPtr)->right = temp->right;
         }
 
-        *heightFlag = avlBalanceRightTree(rootPtr,heightFlag);
+        *heightFlag = avlBalanceRightTree(rootPtr);
 
         if((*rootPtr)->balanceFactor != 0){
           *heightFlag = 0;
@@ -132,22 +132,22 @@ Node *_avlRemove(Node **rootPtr,int delData,Compare compare, int *heightFlag){
       }
     }
     else{
-      if(compare((void *)delData,*rootPtr)== -1){
+      if(compare((void *)(intptr_t)delData,*rootPtr)== -1){
         temp = _avlRemove(&(*(rootPtr))->left,delData,compare,heightFlag);
         if(*heightFlag == 1){
           (*rootPtr)->balanceFactor+=1;
-          *heightFlag = avlBalanceLeftTree(rootPtr,heightFlag);
+          *heightFlag = avlBalanceLeftTree(rootPtr);
         }
         else{
           *heightFlag = 0;
         }
         return temp;
       }
-      else if(compare((void *)delData,*rootPtr)== 1){
+      else if(compare((void *)(intptr_t)delData,*rootPtr)== 1){
         temp = _avlRemove(&(*rootPtr)->right ,delData,compare,heightFlag);
         if(*heightFlag == 1){
           (*rootPtr)->balanceFactor  -=1;
-          *heightFlag = avlBalanceRightTree(rootPtr,heightFlag);
+          *heightFlag = avlBalanceRightTree(rootPtr);
         }
         else{
           *heightFlag = 0;
@@ -168,7 +168,7 @@ Node *findNearest(Node **rootPtr,int *heightFlag){
     temp = findNearest(&(*rootPtr)->left,heightFlag);
     if(*heightFlag == 1){
       (*rootPtr)->balanceFactor += 1;
-      *heightFlag = avlBalanceLeftTree(rootPtr,heightFlag);
+      *heightFlag = avlBalanceLeftTree(rootPtr);
       if((*rootPtr)->balanceFactor != 0)
         *heightFlag = 0;
     }
@@ -186,7 +186,7 @@ Node *findNearest(Node **rootPtr,int *heightFlag){
   }
 }
 
-int avlBalanceLeftTree(Node **rootPtr,int *heightFlag){
+int avlBalanceLeftTree(Node **rootPtr){
   Node *node = *rootPtr;
 
   if((*rootPtr)->balanceFactor  <= 1 ){
@@ -233,7 +233,7 @@ int avlBalanceLeftTree(Node **rootPtr,int *heightFlag){
     }
 }
 
-int avlBalanceRightTree(Node **rootPtr,int *heightFlag){
+int avlBalanceRightTree(Node **rootPtr){
   Node *node = *rootPtr;
 
   if((*rootPtr)->balanceFactor >= -1){
