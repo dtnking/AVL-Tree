@@ -76,13 +76,15 @@ void tearDown(void){}
  *        add same value
  *    50 ---add 50----> error
  */
-void test_avlAdd_given_IntegerNode50_add_IntegerNode50_expected_exception_1(void){
+void test_avlAdd_given_IntegerNode50_add_IntegerNode50_expected_error_code_1(void){
   intNode *root = &node50;
   initIntegerNode(&node50,NULL,NULL,0);
   Try{
   avlAddInteger(&root, &node50);
-  TEST_ASSERT_EQUAL(1,ex);
+
   }Catch(ex){
+    TEST_ASSERT_EQUAL(1,ex->errorCode);
+    dumpException(ex);
   }
   TEST_ASSERT_EQUAL_PTR(&node50,root);
   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node50);
@@ -468,6 +470,23 @@ void test_avlAdd_given_root_node55_and_node40_node65_node30_node60_node75_node80
    TEST_ASSERT_EQUAL_INTEGER_NODE(&node75,&node85,0,&node80);
    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node85);
    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node75);
+
+}
+
+/* Remove 40
+ *       40(0)    -------->   NULL
+ */
+void test_RemoveNode_given_removing_data_is_NULL(void){
+   intNode *root = &node40;
+   initIntegerNode(&node40,NULL,NULL,0);
+   Try{
+   avlRemoveInteger(&root,(intptr_t)NULL);
+   }Catch(ex){
+   TEST_ASSERT_EQUAL(2,ex->errorCode);
+   dumpException(ex);
+   }
+   TEST_ASSERT_EQUAL_PTR(&node40,root);
+   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
 
 }
 
