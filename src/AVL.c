@@ -76,7 +76,7 @@ Node *avlRemove(Node **rootPtr, int delData, Compare compare){
   int heightChange;
   Node *dataRemove = _avlRemove(rootPtr,delData,compare,&heightChange);
     if(dataRemove == NULL)
-      printf("Couldn't find the node");
+      Throw(createException("Couldn't find the node", NODE_NA));
     else
       return dataRemove;
 }

@@ -4,6 +4,7 @@
 
 
 #define NODE_ADD_EXIST  	1
+#define NODE_NA						2
 
 typedef struct Exception Exception;
 typedef Exception* ExceptionPtr;
