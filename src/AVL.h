@@ -9,7 +9,8 @@
 #include <stdint.h>
 
 typedef int (*Compare)(void *data,Node *refNode);
-int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare);
+int _avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare);
+void avlAdd(Node **root, Node *nodeToAdd, Compare compare);
 int avlBalanceLeftTree(Node **rootPtr);
 int avlBalanceRightTree(Node **rootPtr);
 Node *_avlRemove(Node **rootPtr,int delData,  Compare compare,int *heightFlag);

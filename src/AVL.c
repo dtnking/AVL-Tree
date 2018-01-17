@@ -24,7 +24,11 @@
  *  -----------------------------------------------------------------
  */
 
-int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare){
+void avlAdd(Node **root, Node *nodeToAdd, Compare compare){
+  _avlAdd(root,nodeToAdd, compare);
+}
+
+int _avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare){
   int heightChanged;
   char *error;
 
@@ -33,7 +37,7 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare){
     return 1;
   } else {
     if (compare((void *)(intptr_t)nodeToAdd->data,*rootPtr)== -1){
-        heightChanged = avlAdd(&(*rootPtr)->left,nodeToAdd,compare);
+        heightChanged = _avlAdd(&(*rootPtr)->left,nodeToAdd,compare);
         if(heightChanged==1){
           (*rootPtr)->balanceFactor -= 1 ;
           if((*rootPtr)->balanceFactor==0)
@@ -51,7 +55,7 @@ int avlAdd(Node **rootPtr, Node *nodeToAdd,Compare compare){
         return 1;
     }
     else if(compare((void *)(intptr_t)nodeToAdd->data,*rootPtr)== 1){
-        heightChanged = avlAdd(&(*rootPtr)->right,nodeToAdd,compare);
+        heightChanged = _avlAdd(&(*rootPtr)->right,nodeToAdd,compare);
         if(heightChanged==1){
           (*rootPtr)->balanceFactor += 1;
           if((*rootPtr)->balanceFactor==0)
