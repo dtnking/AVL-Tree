@@ -138,6 +138,8 @@ Node *_avlRemove(Node **rootPtr,int delData,Compare compare, int *heightFlag){
     else{
       if(compare((void *)(intptr_t)delData,*rootPtr)== -1){
         temp = _avlRemove(&(*(rootPtr))->left,delData,compare,heightFlag);
+        if(temp == NULL)
+          return NULL;
         if(*heightFlag == 1){
           (*rootPtr)->balanceFactor+=1;
           *heightFlag = avlBalanceLeftTree(rootPtr);
@@ -149,6 +151,8 @@ Node *_avlRemove(Node **rootPtr,int delData,Compare compare, int *heightFlag){
       }
       else if(compare((void *)(intptr_t)delData,*rootPtr)== 1){
         temp = _avlRemove(&(*rootPtr)->right ,delData,compare,heightFlag);
+        if(temp == NULL)
+          return NULL;
         if(*heightFlag == 1){
           (*rootPtr)->balanceFactor  -=1;
           *heightFlag = avlBalanceRightTree(rootPtr);
