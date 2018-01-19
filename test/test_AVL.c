@@ -103,7 +103,7 @@ void test_avlAdd_given_root_node50_add_node55_expected_balance_tree(void){
   initIntegerNode(&node50,NULL,NULL,0);
   initIntegerNode(&node55,NULL,NULL,0);
   Try{
-  avlAddInteger(&root, &node55);
+    avlAddInteger(&root, &node55);
   }Catch(ex){
     dumpException(ex);
   }
@@ -120,9 +120,9 @@ void test_avlAdd_given_empty_tree_add_node1_expected_node1_to_be_root(void){
   intNode *root = NULL;
   initIntegerNode(&node50,NULL,NULL,0);
   Try{
-  avlAddInteger(&root, &node50);
+    avlAddInteger(&root, &node50);
   }Catch(ex){
-  dumpException(ex);
+    dumpException(ex);
   }
   TEST_ASSERT_EQUAL_PTR(&node50,root);
   TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node50);
@@ -458,7 +458,7 @@ void test_avlAdd_given_root_node55_and_node40_node65_node30_node60_node75_node80
    initIntegerNode(&node85,NULL,NULL,0);
 
    Try{
-   avlAddInteger(&root, &node85);
+     avlAddInteger(&root, &node85);
    }Catch(ex){
      dumpException(ex);
    }
@@ -473,21 +473,21 @@ void test_avlAdd_given_root_node55_and_node40_node65_node30_node60_node75_node80
 
 }
 
-/* Remove 40
- *       40(0)    -------->   NULL
+/* Remove 30
+ *       40(0)    -------->   Exception Thrown
  */
-void test_RemoveNode_given_removing_data_is_NULL(void){
+void test_RemoveNode_given_Tree_contain_only_node40_remove_node30_expect_errorCode_2(void){
    intNode *root = &node40;
    initIntegerNode(&node40,NULL,NULL,0);
+
    Try{
-   avlRemoveInteger(&root,(intptr_t)NULL);
+     avlRemoveInteger(&root,30);
    }Catch(ex){
-   TEST_ASSERT_EQUAL(2,ex->errorCode);
-   dumpException(ex);
+     TEST_ASSERT_EQUAL(2,ex->errorCode);
+     dumpException(ex);
    }
    TEST_ASSERT_EQUAL_PTR(&node40,root);
    TEST_ASSERT_EQUAL_INTEGER_NODE(NULL,NULL,0,&node40);
-
 }
 
 /* Remove 40
