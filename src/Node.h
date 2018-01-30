@@ -3,22 +3,22 @@
 
 #include <stdint.h>
 
-typedef struct intNode intNode;
-struct intNode{
-  intNode *left;
-  intNode *right;
-  int balanceFactor;
-  int height;
-  uint32_t data;
-};
-
 typedef struct Node Node;
 struct Node{
   Node *left;
   Node *right;
   int balanceFactor;
   int height;
-  uint32_t data;
+  void *data;
+};
+
+typedef struct intNode intNode;
+struct intNode{
+  intNode *left;
+  intNode *right;
+  int balanceFactor;
+  int height;
+  uint32_t *data;
 };
 
 typedef struct StringNode StringNode;
@@ -26,9 +26,8 @@ struct StringNode{
   StringNode *left;
   StringNode *right;
   int balanceFactor;
+  int height;
   char *data;
 };
-
-
 
 #endif // _NODE_H
