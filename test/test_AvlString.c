@@ -4,21 +4,15 @@
 #include "Node.h"
 #include "NodeHelper.h"
 #include "NodeVerifier.h"
-#include "AvlInteger.h"
-#include <stdint.h>
-#include <stdio.h>
 #include "Rotate.h"
 #include "Exception.h"
 #include "CException.h"
 
 StringNode nodeAli,nodeAbu,nodeAkau,nodeAlirosa,nodeAba,nodeAmin;
 CEXCEPTION_T ex;
-
-
 #define initStringNode(n,l,r,bf)  initNode((Node *)n,(Node *)l,(Node *)r,bf)
 
-void setUp(void)
-{
+void setUp(void){
   nodeAli.data="Ali";
   nodeAbu.data="Abu";
   nodeAkau.data="Akau";
