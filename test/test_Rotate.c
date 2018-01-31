@@ -13,22 +13,21 @@
 Node node1, node5, node10, node15, node20, node25, node30, node35, node40;
 Node node45, node50, node55 , node60, node65;
 
-
 void setUp(void){
-  node1.data = 1;
-  node5.data = 5;
-  node10.data = 10;
-  node15.data = 15;
-  node20.data = 20;
-  node25.data = 25;
-  node30.data = 30;
-  node35.data = 35;
-  node40.data = 40;
-  node45.data = 45;
-  node50.data = 50;
-  node55.data = 55;
-  node60.data = 60;
-  node65.data = 65;
+  node1.data = (void *)1;
+  node5.data = (void *)5;
+  node10.data = (void *)10;
+  node15.data = (void *)15;
+  node20.data = (void *)20;
+  node25.data = (void *)25;
+  node30.data = (void *)30;
+  node35.data = (void *)35;
+  node40.data = (void *)40;
+  node45.data = (void *)45;
+  node50.data = (void *)50;
+  node55.data = (void *)55;
+  node60.data = (void *)60;
+  node65.data = (void *)65;
 }
 
 void tearDown(void){}

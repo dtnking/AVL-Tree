@@ -16,58 +16,57 @@ intNode node95,node100,node105,node110,node115,node120,node125,node130,node135;
 intNode node140,node145,node150,node155,node160,node165,node170,node175,node180;
 intNode node185,node190,node195,node200,node205,node210,node215,node220,node225,node230;
 
-#define initIntegerNode(n,l,r,bf)  initNode((Node *)n,(Node *)l,(Node *)r,bf)
-
 CEXCEPTION_T ex;
 
+#define initIntegerNode(n,l,r,bf)  initNode((Node *)n,(Node *)l,(Node *)r,bf)
+
 void setUp(void){
-  node1.data = 1;
-  node5.data = 5;
-  node10.data = 10;
-  node15.data = 15;
-  node20.data = 20;
-  node25.data = 25;
-  node30.data = 30;
-  node35.data = 35;
-  node40.data = 40;
-  node45.data = 45;
-  node50.data = 50;
-  node55.data = 55;
-  node60.data = 60;
-  node65.data = 65;
-  node70.data = 70;
-  node75.data = 75;
-  node80.data = 80;
-  node85.data = 85;
-  node90.data = 90;
-  node95.data = 95;
-  node100.data = 100;
-  node105.data = 105;
-  node110.data = 110;
-  node115.data = 115;
-  node120.data = 120;
-  node125.data = 125;
-  node130.data = 130;
-  node135.data = 135;
-  node140.data = 140;
-  node145.data = 145;
-  node150.data = 150;
-  node155.data = 155;
-  node160.data = 160;
-  node165.data = 165;
-  node170.data = 170;
-  node175.data = 175;
-  node180.data = 180;
-  node185.data = 185;
-  node190.data = 190;
-  node195.data = 195;
-  node200.data = 200;
-  node205.data = 205;
-  node210.data = 210;
-  node215.data = 215;
-  node220.data = 220;
-  node225.data = 225;
-  node230.data = 230;
+  node1.data = (int *)1;
+  node5.data = (int *)5;
+  node10.data = (int *)10;
+  node15.data = (int *)15;
+  node20.data = (int *)20;
+  node25.data = (int *)25;
+  node30.data = (int *)30;
+  node35.data = (int *)35;
+  node40.data = (int *)40;
+  node45.data = (int *)45;
+  node50.data = (int *)50;
+  node55.data = (int *)55;
+  node60.data = (int *)60;
+  node65.data = (int *)65;
+  node70.data = (int *)70;
+  node75.data = (int *)75;
+  node80.data = (int *)80;
+  node85.data = (int *)85;
+  node90.data = (int *)90;
+  node95.data = (int *)95;
+  node100.data = (int *)100;
+  node105.data = (int *)105;
+  node110.data = (int *)110;
+  node115.data = (int *)115;
+  node120.data = (int *)120;
+  node125.data = (int *)125;
+  node130.data = (int *)130;
+  node135.data = (int *)135;
+  node140.data = (int *)140;
+  node145.data = (int *)145;
+  node150.data = (int *)150;
+  node155.data = (int *)155;
+  node160.data = (int *)160;
+  node165.data = (int *)165;
+  node170.data = (int *)170;
+  node175.data = (int *)175;
+  node180.data = (int *)180;
+  node185.data = (int *)185;
+  node190.data = (int *)195;
+  node200.data = (int *)200;
+  node205.data = (int *)205;
+  node210.data = (int *)210;
+  node215.data = (int *)215;
+  node220.data = (int *)220;
+  node225.data = (int *)225;
+  node230.data = (int *)230;
 }
 
 void tearDown(void){}
@@ -80,7 +79,7 @@ void test_avlAdd_given_IntegerNode50_add_IntegerNode50_expected_error_code_1(voi
   intNode *root = &node50;
   initIntegerNode(&node50,NULL,NULL,0);
   Try{
-  avlAddInteger(&root, &node50);
+  avlAddInteger(&root,&node50);
 
   }Catch(ex){
     TEST_ASSERT_EQUAL(1,ex->errorCode);
