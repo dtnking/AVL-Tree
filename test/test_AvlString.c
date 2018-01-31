@@ -23,6 +23,29 @@ void setUp(void){
 
 void tearDown(void){}
 
+//   x = y   -----> return 0
+void test_StringCompare_nodeAli_with_Ali_expected_return_0(void){
+  initStringNode(&nodeAli,NULL,NULL,0);
+  int result =StringCompare("Ali",&nodeAli);
+
+  TEST_ASSERT_EQUAL(0,result);
+}
+
+//    x < y   -----> return -1
+void test_StringCompare_nodeAli_with_Abu_expected_return_negative_1(void){
+  initStringNode(&nodeAli,NULL,NULL,0);
+  int result =StringCompare("Abu",&nodeAli);
+
+  TEST_ASSERT_EQUAL(-1,result);
+}
+
+//    x > y   -----> return 1
+void test_StringCompare_nodeAli_with_Amin_expected_return_1(void){
+  initStringNode(&nodeAli,NULL,NULL,0);
+  int result =StringCompare("Amin",&nodeAli);
+
+  TEST_ASSERT_EQUAL(1,result);
+}
 
 /* Add same node
  *     Ali    -------->     Error code 1

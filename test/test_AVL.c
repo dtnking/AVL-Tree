@@ -71,6 +71,30 @@ void setUp(void){
 
 void tearDown(void){}
 
+//   x = y   -----> return 0
+void test_integerCompare_node5_with_5_expected_return_0(void){
+  initIntegerNode(&node5,NULL,NULL,0);
+  int result =IntegerCompare(5,&node5);
+
+  TEST_ASSERT_EQUAL(0,result);
+}
+
+//    x < y   -----> return -1
+void test_integerCompare_node5_with_1_expected_return_negative_1(void){
+  initIntegerNode(&node5,NULL,NULL,0);
+  int result =IntegerCompare(1,&node5);
+
+  TEST_ASSERT_EQUAL(-1,result);
+}
+
+//    x > y   -----> return 1
+void test_integerCompare_node5_with_10_expected_return_1(void){
+  initIntegerNode(&node5,NULL,NULL,0);
+  int result =IntegerCompare(10,&node5);
+
+  TEST_ASSERT_EQUAL(1,result);
+}
+
 /**
  *        add same value
  *    50 ---add 50----> error
