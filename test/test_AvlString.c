@@ -21,11 +21,12 @@ void setUp(void){
   nodeAmin.data="Amin";
 }
 
-void tearDown(void){}
+void tearDown(void){
+  strNodeNullify();
+}
 
 //   x = y   -----> return 0
 void test_StringCompare_nodeAli_with_Ali_expected_return_0(void){
-  initStringNode(&nodeAli,NULL,NULL,0);
   int result =StringCompare("Ali",&nodeAli);
 
   TEST_ASSERT_EQUAL(0,result);
@@ -33,7 +34,6 @@ void test_StringCompare_nodeAli_with_Ali_expected_return_0(void){
 
 //    x < y   -----> return -1
 void test_StringCompare_nodeAli_with_Abu_expected_return_negative_1(void){
-  initStringNode(&nodeAli,NULL,NULL,0);
   int result =StringCompare("Abu",&nodeAli);
 
   TEST_ASSERT_EQUAL(-1,result);
@@ -41,7 +41,6 @@ void test_StringCompare_nodeAli_with_Abu_expected_return_negative_1(void){
 
 //    x > y   -----> return 1
 void test_StringCompare_nodeAli_with_Amin_expected_return_1(void){
-  initStringNode(&nodeAli,NULL,NULL,0);
   int result =StringCompare("Amin",&nodeAli);
 
   TEST_ASSERT_EQUAL(1,result);
@@ -52,7 +51,6 @@ void test_StringCompare_nodeAli_with_Amin_expected_return_1(void){
  *
  */
 void test_AVL_StringAdd_given_Ali_add_Ali_expected_error_code_1(void){
-  initStringNode(&nodeAli,NULL,NULL,0);
   StringNode *root = &nodeAli;
   Try{
   avlAddString(&root,&nodeAli);
@@ -66,7 +64,6 @@ void test_AVL_StringAdd_given_Ali_add_Ali_expected_error_code_1(void){
  *
  */
 void test_AVL_StringAdd_given_NULL_add_Ali(void){
-  initStringNode(&nodeAli,NULL,NULL,0);
   StringNode *root = NULL;
   Try{
   avlAddString(&root,&nodeAli);
@@ -83,8 +80,6 @@ void test_AVL_StringAdd_given_NULL_add_Ali(void){
  *                                        "Amin"(0)
  */
 void test_AVL_StringAdd_given_Ali_add_Amin(void){
-  initStringNode(&nodeAli,NULL,NULL,0);
-  initStringNode(&nodeAmin,NULL,NULL,0);
   StringNode *root = &nodeAli;
   Try{
   avlAddString(&root,&nodeAmin);
@@ -102,8 +97,6 @@ void test_AVL_StringAdd_given_Ali_add_Amin(void){
  */
 void test_AVL_StringAdd_given_Ali_Amin_add_Abu(void){
   initStringNode(&nodeAli,NULL,&nodeAmin,1);
-  initStringNode(&nodeAmin,NULL,NULL,0);
-  initStringNode(&nodeAbu,NULL,NULL,0);
   StringNode *root = &nodeAli;
   Try{
   avlAddString(&root,&nodeAbu);
@@ -121,8 +114,6 @@ void test_AVL_StringAdd_given_Ali_Amin_add_Abu(void){
  */
 void test_AVL_StringRemove_given_Ali_Abu_Amin_remove_Amin(void){
   initStringNode(&nodeAli,&nodeAbu,&nodeAmin,0);
-  initStringNode(&nodeAmin,NULL,NULL,0);
-  initStringNode(&nodeAbu,NULL,NULL,0);
   StringNode *root = &nodeAli;
 
   Try{
@@ -142,8 +133,6 @@ void test_AVL_StringRemove_given_Ali_Abu_Amin_remove_Amin(void){
  */
 void test_AVL_StringRemove_given_Ali_Abu_Amin_remove_Abu(void){
   initStringNode(&nodeAli,&nodeAbu,&nodeAmin,0);
-  initStringNode(&nodeAmin,NULL,NULL,0);
-  initStringNode(&nodeAbu,NULL,NULL,0);
   StringNode *root = &nodeAli;
 
   Try{
